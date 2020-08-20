@@ -16,26 +16,32 @@
 
 
 	<body>
-		<!--<iframe 
+		<iframe 
+        id = "framevideo"
 		  width="760" 
 		  height="415" 
-		  srcdoc="<a href=https://www.youtube.com/embed/Y8Wp3dafaMQ><img src=https://i3.ytimg.com/vi/Y8Wp3dafaMQ/hqdefault.jpg></a>" 
+		  srcdoc="<a href=https://www.youtube.com/embed/Y8Wp3dafaMQ>vidos</a>" 
 		  frameborder="0" 
 		  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-		  allowfullscreen>Ваш браузер не поддерживает фреймы.</iframe>-->
+		  allowfullscreen>Ваш браузер не поддерживает фреймы.</iframe>
 
 
 		  <form method="post" enctype="multipart/form-data">
 			<div>
 			  <label for="file">Choose file to upload</label>
-			  <input type="file" id="file" name="file" value multiple>
+			 <!-- <input type="file" id="file" name="file" value multiple>  -->
+           <input type="text" id="videolink" name="videolink" value multiple>
 			</div>
 			<div>
-			  <button id="upload" onclick="let vid = document.getElementById('file').value">Submit</button>
+			    <!-- <button id="upload" onclick="let vid = document.getElementById('file').value; console.log(vid)">Submit</button> -->
+             <button id="upload" onclick="videoinput = document.getElementById('videolink'); 
+                                 videoutput = document.getElementById('framevideo');
+                                 videoutput.setAttribute('srcdoc','<a href='+ videoinput.value+'>new vidos</a>'); 
+                                 console.log('<a href='+ videoinput.value+'</a>') ">Submit</button>
 			</div>
 		   </form>
 
-		   <button onclick="console.log(vid)">Check</button>
+		   <button onclick="console.log(getElementById(framevideo))">Check</button>
 		   
 
 	
