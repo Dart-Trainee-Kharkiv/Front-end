@@ -1,0 +1,43 @@
+<DOCTYPE! html>
+<html ng-app>
+	<head>
+		<meta charset="utf-8">
+		<script src="script.js"></script>
+		<link rel="stylesheet" href="style.css">
+		<link href="https://fonts.googleapis.com/css?family=Anton|Lobster|Pacifico&display=swap" rel="stylesheet">
+		<script src="https://code.angularjs.org/1.5.8/angular.min.js"></script>
+		<script src="html2canvas.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	</head>
+<header><div class="block-logo">
+	<h1 class="text logo" style="font-size: 4em;">LoGo</h1>
+</div></header>
+
+
+
+	<body>
+		<!--<iframe 
+		  width="760" 
+		  height="415" 
+		  srcdoc="<a href=https://www.youtube.com/embed/Y8Wp3dafaMQ><img src=https://i3.ytimg.com/vi/Y8Wp3dafaMQ/hqdefault.jpg></a>" 
+		  frameborder="0" 
+		  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+		  allowfullscreen>Ваш браузер не поддерживает фреймы.</iframe>-->
+
+
+		  <form method="post" enctype="multipart/form-data">
+			<div>
+			  <label for="file">Choose file to upload</label>
+			  <input type="file" id="file" name="file" value multiple>
+			</div>
+			<div>
+			  <button id="upload" onclick="let vid = document.getElementById('file').value">Submit</button>
+			</div>
+		   </form>
+
+		   <button onclick="console.log(vid)">Check</button>
+		   
+
+	
+	</body>
+</html>
