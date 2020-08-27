@@ -1,0 +1,112 @@
+body {
+	max-width: 1600px;
+    height: 900px;
+	background-color: #E5E5E5;
+	font-style: normal;
+    font-weight: normal;
+    font-family: "SF Pro Display", "PT Serif Caption", sans-serif;
+    color: #000000;
+
+}
+
+.main-header {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	height: 100px;
+	width: 100%;
+	margin: 0;
+	padding-top: 34px;
+	background-color: #E5E5E5;
+
+}
+
+.logo-block {
+	width: 9.5%;
+	padding-left: 56px;
+
+	/*margin: auto;*/
+
+}
+
+
+.main-header__logo-link {
+	display: inline-block;
+	color: #000000;
+}
+
+
+
+.logo-link-text {
+	display: inline-block;
+	padding-left: 16px;	
+    font-size: 24px;
+    line-height: 29px;
+/*	margin: auto;*/
+
+
+
+}
+
+
+.speed-check {
+	/*min-width: 700px;*/
+	width: 72%;
+    font-size: 24px;
+    line-height: 29px;
+}
+
+.user-profile {
+    width: 18.5%;
+}
+
+.user-block-ava {
+   display: inline-block;
+}
+
+.user-block {
+   display: inline-block;
+   padding-left: 16px;
+}
+
+.user-block-name {
+
+	font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+   line-height: 17px;
+}
+
+
+.user-block-role {
+   font-style: normal;
+   font-weight: normal;
+   font-size: 10px;
+   line-height: 12px;
+
+}
+
+
+.main-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	height: 800px;
+	background-color: grey;
+}
+
+.container-navigation {
+	max-width: 200px;
+}
+
+.container-video {
+	max-width: 800px;
+}
+
+.container-input {
+	max-width: 320px;
+}
+
+.container-result {
+	max-width: 280px;
+}

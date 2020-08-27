@@ -2,48 +2,135 @@
 <html ng-app>
 	<head>
 		<meta charset="utf-8">
-		<script src="script.js"></script>
-		<link rel="stylesheet" href="style.css">
-		<link href="https://fonts.googleapis.com/css?family=Anton|Lobster|Pacifico&display=swap" rel="stylesheet">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Speed check</title>
+		<link href="https://fonts.google.com/specimen/PT+Serif+Caption?query=S&category=Serif,Display#license" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="css/normalize.css">
+		<link rel="stylesheet" href="css/style.css">
+		<script src="js/script.js"></script>
 		<script src="https://code.angularjs.org/1.5.8/angular.min.js"></script>
-		<script src="html2canvas.min.js"></script>
+		<script src="js/html2canvas.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	</head>
-<header><div class="block-logo">
-	<h1 class="text logo" style="font-size: 4em;">LoGo</h1>
-</div></header>
 
 
 
 	<body>
-		<iframe 
+	<header class="main-header">
+		<div class="logo-block">
+		  <a href="#" class="main-header__logo-link">
+           <img src="img/raund.svg" alt="img">
+	       <div class="logo-link-text">Logo</div>
+	     </a>
+        </div>
+        <div class="speed-check">Speed check</div>
+        <div class="user-profile">
+           	<img src="img/raund.svg" class="user-block-ava" alt="ava">
+           	<div class="user-block">
+              <div class="user-block-name">Mark</div> 
+              <div class="user-block-role">Administrator</div>  
+            </div>            
+        </div>
+    </header>
+
+    <main class="main-container">
+     <div class="container-navigation">
+     	<nav class="main-navigation">
+     	  <ul>
+     		<li>
+     		   <a href="#">Car`s speed</a>	
+     		</li>
+            <li>
+            	<a href="#">Settings</a>	
+            </li>
+            <li>
+            	<a href="#">Help</a>
+            </li>
+            <li>
+            	<a href="#">English</a>
+            </li>
+              <li>
+            	<a href="#">Sing out</a>
+            </li>
+     	  </ul>
+     	</nav>
+     </div>
+     <div class="container-video">
+     	<div>
+     		<div>Upload video</div>
+     		<div>Calculation</div>
+     	</div>
+     	<div>
+     		<iframe 
+          id = "framevideo"
+		  width="640" 
+		  height="360" 
+		  srcdoc="<a href=https://www.youtube.com/embed/Y8Wp3dafaMQ>vidos</a>" 
+		  frameborder="0" 
+		  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+		  allowfullscreen>Ваш браузер не поддерживает фреймы.</iframe>
+     	</div>
+     	<div>
+     		<button class="btn">ADD VIDEO</button>
+     		<button class="btn">ADD LINK</button>
+     	</div>
+     </div>	
+
+    <div class="container-input">
+     		<div class="your data">
+     			<div>Your data</div>
+     			<div>
+     				<form class="result-form" action="htpps:" method="post">
+     				<div>Car`s speed</div>
+     				<input type="number" name="speed" value="" placeholder="">
+     				<div>Distance</div>
+     				<input type="number" name="distance" value="" placeholder="">
+     				<div>Time</div>
+     				<input type="time" name="time" value="" placeholder="">
+     				<button class="btn" type="submit">Submit</button>
+     				</form>
+     			</div>
+
+     			
+
+     		</div>
+     		
+     	</div>
+
+      
+    <div class="container-result"> 
+    	<div>Result</div>
+    	<div>On this segment of the road, the car exceeded speed</div>
+    </div>
+
+    </main>
+
+		<!--<iframe 
         id = "framevideo"
 		  width="760" 
 		  height="415" 
 		  srcdoc="<a href=https://www.youtube.com/embed/Y8Wp3dafaMQ>vidos</a>" 
 		  frameborder="0" 
 		  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-		  allowfullscreen>Ваш браузер не поддерживает фреймы.</iframe>
+		  allowfullscreen>Ваш браузер не поддерживает фреймы.</iframe> -->
 
-
-		  <form method="post" enctype="multipart/form-data">
+		<!--  <form method="post" enctype="multipart/form-data">
 			<div>
 			  <label for="file">Choose file to upload</label>
-			 <!-- <input type="file" id="file" name="file" value multiple>  -->
-           <input type="text" id="videolink" name="videolink" value multiple>
+			    <input type="file" id="file" name="file" value multiple>  -->
+        <!--   <input type="text" id="videolink" name="videolink" value multiple>
 			</div>
 			<div>
-			    <!-- <button id="upload" onclick="let vid = document.getElementById('file').value; console.log(vid)">Submit</button> -->
-             <button id="upload" onclick="videoinput = document.getElementById('videolink'); 
+			     <button id="upload" onclick="let vid = document.getElementById('file').value; console.log(vid)">Submit</button> -->
+        <!--     <button id="upload" onclick="videoinput = document.getElementById('videolink'); 
                                  videoutput = document.getElementById('framevideo');
                                  videoutput.setAttribute('srcdoc','<a href='+ videoinput.value+'>new vidos</a>'); 
                                  console.log('<a href='+ videoinput.value+'</a>') ">Submit</button>
 			</div>
 		   </form>
 
-		   <button onclick="console.log(getElementById(framevideo))">Check</button>
-		   
-
+		   <button onclick="console.log(getElementById(framevideo))">Check</button> -->
+	  
 	
 	</body>
 </html>
