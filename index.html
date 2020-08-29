@@ -56,15 +56,13 @@
      	</nav>
      </div>
      <div class="container-video">
-     	<div>
-     		<div>Upload video</div>
-     		<div>Calculation</div>
+     	<div class="video-toggle">
+     		<div class="container-video-upload">Upload video</div>
+     		<div class="container-video-calculation">Calculation</div>
      	</div>
-     	<div>
+     	<div class="video-translation">
      		<iframe 
           id = "framevideo"
-		  width="640" 
-		  height="360" 
 		  srcdoc="<a href=https://www.youtube.com/embed/Y8Wp3dafaMQ>vidos</a>" 
 		  frameborder="0" 
 		  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
@@ -86,7 +84,7 @@
      				<div>Distance</div>
      				<input type="number" name="distance" value="" placeholder="">
      				<div>Time</div>
-     				<input type="time" name="time" value="" placeholder="">
+     				<input type="number" name="time" value="" placeholder="">
      				<button class="btn" type="submit">Submit</button>
      				</form>
      			</div>

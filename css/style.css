@@ -44,8 +44,6 @@ body {
     line-height: 29px;
 /*	margin: auto;*/
 
-
-
 }
 
 
@@ -54,6 +52,7 @@ body {
 	width: 72%;
     font-size: 24px;
     line-height: 29px;
+    padding-left: 100px;
 }
 
 .user-profile {
@@ -74,7 +73,7 @@ body {
 	font-style: normal;
     font-weight: 500;
     font-size: 14px;
-   line-height: 17px;
+    line-height: 17px;
 }
 
 
@@ -92,21 +91,91 @@ body {
 	flex-direction: row;
 	justify-content: space-between;
 	height: 800px;
-	background-color: grey;
+	background-color: #E5E5E5;
 }
 
 .container-navigation {
-	max-width: 200px;
+	max-width: 17.5%;
 }
 
+
+.main-navigation ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	margin-top: 36px;
+	
+}
+
+.main-navigation li {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    vertical-align: top;
+    margin-left: 40px;
+    padding-left: 56px;
+
+}
+
+
+.main-navigation a {
+	display: block;
+	width: 200px;
+	height: 72px;
+	color: #000000;
+	text-decoration: none;
+}
+
+
+
 .container-video {
-	max-width: 800px;
+	max-width: 49%;
+
+}
+
+.video-toggle {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    height: 73px;
+	font-size: 18px;
+    line-height: 21px;
+
+}
+
+.container-video-upload {
+	width: 304px;
+	height: 72px;
+	padding-left: 16px;
+	border-bottom: 1px solid #474747;
+}
+
+
+.container-video-calculation {
+	width: 304px;
+	height: 72px;
+	padding-left: 16px;
+	color: #474747;
+}
+
+.video-translation {
+	margin-top: 40px;
+	width: 640px;
+	height: 360px;
+	/*padding-top: 44px;*/
+	background: #9C9B9B;
+}
+
+#framevideo {
+	width: 640px;
+	height: 360px;
 }
 
 .container-input {
-	max-width: 320px;
+	max-width: 13.5%;
 }
 
 .container-result {
-	max-width: 280px;
+	max-width: 20%;
 }
