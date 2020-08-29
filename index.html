@@ -15,7 +15,7 @@
 
 
 
-	<body>
+<body>
 	<header class="main-header">
 		<div class="logo-block">
 		  <a href="#" class="main-header__logo-link">
@@ -34,7 +34,7 @@
     </header>
 
     <main class="main-container">
-     <div class="container-navigation">
+      <div class="container-navigation">
      	<nav class="main-navigation">
      	  <ul>
      		<li>
@@ -54,8 +54,8 @@
             </li>
      	  </ul>
      	</nav>
-     </div>
-     <div class="container-video">
+      </div>
+    <div class="container-video">
      	<div class="video-toggle">
      		<div class="container-video-upload">Upload video</div>
      		<div class="container-video-calculation">Calculation</div>
@@ -68,39 +68,31 @@
 		  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
 		  allowfullscreen>Ваш браузер не поддерживает фреймы.</iframe>
      	</div>
-     	<div>
+     	<div class="buttons">
      		<button class="btn">ADD VIDEO</button>
-     		<button class="btn">ADD LINK</button>
+         	<button class="btn right">ADD LINK</button>
      	</div>
-     </div>	
-
-    <div class="container-input">
-     		<div class="your data">
-     			<div>Your data</div>
-     			<div>
-     				<form class="result-form" action="htpps:" method="post">
-     				<div>Car`s speed</div>
-     				<input type="number" name="speed" value="" placeholder="">
-     				<div>Distance</div>
-     				<input type="number" name="distance" value="" placeholder="">
-     				<div>Time</div>
-     				<input type="number" name="time" value="" placeholder="">
-     				<button class="btn" type="submit">Submit</button>
-     				</form>
-     			</div>
-
-     			
-
-     		</div>
-     		
-     	</div>
-
-      
-    <div class="container-result"> 
-    	<div>Result</div>
-    	<div>On this segment of the road, the car exceeded speed</div>
-    </div>
-
+       
+        <div class="container-input">
+            <div class="your-data">Your data</div>
+            <div class="your-data-form">
+                    <form class="result-form" action="htpps:" method="post">
+                      <div class="result">Car`s speed</div>
+                         <input type="number" name="speed" value="" placeholder="">
+                      <div class="result">Distance</div>
+                         <input type="number" name="distance" value="" placeholder="">
+                      <div class="result">Time</div>
+                         <input type="number" name="time" value="" placeholder="">
+                    <button class="btn bottom" type="submit">Submit</button>
+                    </form>
+            </div>
+        </div>
+    </div>	
+    
+      <div class="container-result"> 
+    	<div class="result-name">Result</div>
+    	<div class="result-discribe">On this segment of the road, the<br>car exceeded speed</div>
+      </div>
     </main>
 
 		<!--<iframe 
@@ -129,6 +121,5 @@
 
 		   <button onclick="console.log(getElementById(framevideo))">Check</button> -->
 	  
-	
 	</body>
 </html>
