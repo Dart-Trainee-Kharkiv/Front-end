@@ -1,0 +1,181 @@
+body {
+	max-width: 1600px;
+    height: 900px;
+	background-color: #E5E5E5;
+	font-style: normal;
+    font-weight: normal;
+    font-family: "SF Pro Display", "PT Serif Caption", sans-serif;
+    color: #000000;
+
+}
+
+.main-header {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	height: 100px;
+	width: 100%;
+	margin: 0;
+	padding-top: 34px;
+	background-color: #E5E5E5;
+
+}
+
+.logo-block {
+	width: 9.5%;
+	padding-left: 56px;
+
+	/*margin: auto;*/
+
+}
+
+
+.main-header__logo-link {
+	display: inline-block;
+	color: #000000;
+}
+
+
+
+.logo-link-text {
+	display: inline-block;
+	padding-left: 16px;	
+    font-size: 24px;
+    line-height: 29px;
+/*	margin: auto;*/
+
+}
+
+
+.speed-check {
+	/*min-width: 700px;*/
+	width: 72%;
+    font-size: 24px;
+    line-height: 29px;
+    padding-left: 100px;
+}
+
+.user-profile {
+    width: 18.5%;
+}
+
+.user-block-ava {
+   display: inline-block;
+}
+
+.user-block {
+   display: inline-block;
+   padding-left: 16px;
+}
+
+.user-block-name {
+
+	font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+
+.user-block-role {
+   font-style: normal;
+   font-weight: normal;
+   font-size: 10px;
+   line-height: 12px;
+
+}
+
+
+.main-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	height: 800px;
+	background-color: #E5E5E5;
+}
+
+.container-navigation {
+	max-width: 17.5%;
+}
+
+
+.main-navigation ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	margin-top: 36px;
+	
+}
+
+.main-navigation li {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    vertical-align: top;
+    margin-left: 40px;
+    padding-left: 56px;
+
+}
+
+
+.main-navigation a {
+	display: block;
+	width: 200px;
+	height: 72px;
+	color: #000000;
+	text-decoration: none;
+}
+
+
+
+.container-video {
+	max-width: 49%;
+
+}
+
+.video-toggle {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    height: 73px;
+	font-size: 18px;
+    line-height: 21px;
+
+}
+
+.container-video-upload {
+	width: 304px;
+	height: 72px;
+	padding-left: 16px;
+	border-bottom: 1px solid #474747;
+}
+
+
+.container-video-calculation {
+	width: 304px;
+	height: 72px;
+	padding-left: 16px;
+	color: #474747;
+}
+
+.video-translation {
+	margin-top: 40px;
+	width: 640px;
+	height: 360px;
+	/*padding-top: 44px;*/
+	background: #9C9B9B;
+}
+
+#framevideo {
+	width: 640px;
+	height: 360px;
+}
+
+.container-input {
+	max-width: 13.5%;
+}
+
+.container-result {
+	max-width: 20%;
+}
