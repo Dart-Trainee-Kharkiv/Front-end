@@ -10,6 +10,8 @@ function extractFrames() {
   var canvas = document.createElement('canvas');
   var ctx = canvas.getContext('2d');
   var pro = document.querySelector('#progress');
+  var framerate = 1/30;
+  console.log(framerate)
 
   function initCanvas(e) {
     canvas.width = this.videoWidth;
@@ -17,18 +19,16 @@ function extractFrames() {
   }
 
   function drawFrame(e) {
-    this.pause();
-    ctx.drawImage(this, 0, 0);
+    console.log(array.length, Math.floor(video.currentTime/framerate), video.currentTime)
+    ctx.drawImage(video, 0, 0);
     /* 
     this will save as a Blob, less memory consumptive than toDataURL
     a polyfill can be found at
     https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob#Polyfill
     */
     canvas.toBlob(saveFrame, 'image/jpeg');
-    pro.innerHTML = ((this.currentTime / this.duration) * 100).toFixed(2) + ' %';
-    if (this.currentTime < this.duration) {
-      this.play();
-    }
+    
+    pro.innerHTML = ((video.currentTime / video.duration) * 100).toFixed(2) + ' %';  
   }
 
   function saveFrame(blob) {
@@ -42,12 +42,12 @@ function extractFrames() {
   function onend(e) {
     var img;
     // do whatever with the frames
-    console.log('end')
+    console.log(array.length)
     for (var i = 0; i < array.length; i++) {
       img = new Image();
       img.onload = revokeURL;
       img.src = URL.createObjectURL(array[i]);
-      document.body.appendChild(img);
+      // document.body.appendChild(img);
     }
     // we don't need the video's objectURL anymore
     URL.revokeObjectURL(this.src);
@@ -56,11 +56,31 @@ function extractFrames() {
   video.muted = true;
 
   video.addEventListener('loadedmetadata', initCanvas, false);
-  video.addEventListener('timeupdate', drawFrame, false);
+  //video.addEventListener('timeupdate', drawFrame, false);
   video.addEventListener('ended', onend, false);
 
   video.src = URL.createObjectURL(this.files[0]);
-  video.play();
+  
+   function checkTime() {
+      if(video.currentTime > 0 && array.length <= Math.floor(video.currentTime/framerate)) {
+      video.pause();
+      drawFrame();
+      video.play();
+      }
+      if (video.currentTime >= video.duration) {
+        video.pause();
+     } else {
+         /* call checkTime every 1/60th 
+         second until endTime */
+          setTimeout(checkTime, 1000/(1/framerate));
+   }
+   }
+  function start(){
+   video.play();
+   checkTime();
+  }
+  start();
+  
 }
 
 }
