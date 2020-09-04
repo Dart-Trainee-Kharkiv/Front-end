@@ -8,14 +8,12 @@
 		<link rel="stylesheet" type="text/css" href="css/normalize.css">
 		<link rel="stylesheet" href="css/style.css">
 		<script src="js/script.js"></script>
+      <script src="js/index.js"></script>
 		<script src="https://code.angularjs.org/1.5.8/angular.min.js"></script>
-		<script src="js/html2canvas.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	</head>
 
 
-
-<<<<<<< HEAD
 <body>
 	<header class="main-header">
 		<div class="logo-block">
@@ -59,6 +57,7 @@
     <div class="container-video">
      	<div class="video-toggle">
      		<div class="container-video-upload">Upload video</div>
+         <input id="inputvideo" type="file" accept="video/*" />
      		<div class="container-video-calculation">Calculation</div>
      	</div>
      	<div class="video-translation">
@@ -92,6 +91,7 @@
     
       <div class="container-result"> 
     	<div class="result-name">Result</div>
+      <p id="progress"></p>
     	<div class="result-discribe">On this segment of the road, the<br>car exceeded speed</div>
       </div>
     </main>
@@ -121,11 +121,6 @@
 		   </form>
 
 		   <button onclick="console.log(getElementById(framevideo))">Check</button> -->
-	  
-
-   
-         <p id="progress"></p>
-         <input id="inputvideo" type="file" accept="video/*" />
 
 
 	</body>

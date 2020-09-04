@@ -5,8 +5,9 @@ document.getElementById('inputvideo').addEventListener('change', extractFrames, 
 
 function extractFrames() {
   var video = document.createElement('video');
-  document.body.appendChild(video)
+  //document.body.appendChild(video)
   var array = [];
+  var arraybase = [];
   var canvas = document.createElement('canvas');
   var ctx = canvas.getContext('2d');
   var pro = document.querySelector('#progress');
@@ -27,6 +28,8 @@ function extractFrames() {
     https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob#Polyfill
     */
     canvas.toBlob(saveFrame, 'image/jpeg');
+    var dataURL = canvas.toDataURL("image/jpeg");
+    arraybase.push(dataURL.replace(/^data:image\/(png|jpeg);base64,/, ""));
     
     pro.innerHTML = ((video.currentTime / video.duration) * 100).toFixed(2) + ' %';  
   }
@@ -38,16 +41,26 @@ function extractFrames() {
   function revokeURL(e) {
     URL.revokeObjectURL(this.src);
   }
+  
+  function httpGet(theUrl='http://127.0.0.1:5000/')
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "POST", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
 
   function onend(e) {
     var img;
     // do whatever with the frames
     console.log(array.length)
+    console.log(arraybase[0])
+    console.log(canvas.height,canvas.width)
     for (var i = 0; i < array.length; i++) {
       img = new Image();
       img.onload = revokeURL;
       img.src = URL.createObjectURL(array[i]);
-      // document.body.appendChild(img);
+      //document.body.appendChild(img);
     }
     // we don't need the video's objectURL anymore
     URL.revokeObjectURL(this.src);
@@ -69,6 +82,7 @@ function extractFrames() {
       }
       if (video.currentTime >= video.duration) {
         video.pause();
+        onend();
      } else {
          /* call checkTime every 1/60th 
          second until endTime */
