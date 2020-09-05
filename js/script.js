@@ -8,6 +8,7 @@ function extractFrames() {
   //document.body.appendChild(video)
   var array = [];
   var arraybase = [];
+  var arraytiming = [];
   var canvas = document.createElement('canvas');
   var ctx = canvas.getContext('2d');
   var pro = document.querySelector('#progress');
@@ -30,7 +31,7 @@ function extractFrames() {
     canvas.toBlob(saveFrame, 'image/jpeg');
     var dataURL = canvas.toDataURL("image/jpeg");
     arraybase.push(dataURL.replace(/^data:image\/(png|jpeg);base64,/, ""));
-    
+    arraytiming.push(video.currentTime);
     pro.innerHTML = ((video.currentTime / video.duration) * 100).toFixed(2) + ' %';  
   }
 
@@ -53,9 +54,12 @@ function extractFrames() {
   function onend(e) {
     var img;
     // do whatever with the frames
-    console.log(array.length)
+/*     console.log(array.length)
     console.log(arraybase[0])
-    console.log(canvas.height,canvas.width)
+    console.log(canvas.width,canvas.height)
+    console.log() */
+    var size = {width: canvas.width, height: canvas.height}; 
+    console.log(JSON.stringify({ image: arraybase[0], size: size, timing: arraytiming[0] }));
     for (var i = 0; i < array.length; i++) {
       img = new Image();
       img.onload = revokeURL;
