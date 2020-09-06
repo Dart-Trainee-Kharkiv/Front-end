@@ -43,11 +43,12 @@ function extractFrames() {
     URL.revokeObjectURL(this.src);
   }
   
-  function httpGet(theUrl='http://127.0.0.1:5000/')
+  function httpPost(data, theUrl='http://127.0.0.1:5000/')
 {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "POST", theUrl, false ); // false for synchronous request
-    xmlHttp.send( null );
+    xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+    xmlHttp.send( data );
     return xmlHttp.responseText;
 }
 
@@ -58,8 +59,9 @@ function extractFrames() {
     console.log(arraybase[0])
     console.log(canvas.width,canvas.height)
     console.log() */
-    var size = {width: canvas.width, height: canvas.height}; 
-    console.log(JSON.stringify({ image: arraybase[0], size: size, timing: arraytiming[0] }));
+    var size = [canvas.width,canvas.height]; 
+    jsonToSend = JSON.stringify({ image: arraybase[0], size: size, timing: arraytiming[0] })
+    httpPost(jsonToSend)
     for (var i = 0; i < array.length; i++) {
       img = new Image();
       img.onload = revokeURL;
