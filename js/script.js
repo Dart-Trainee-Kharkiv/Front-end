@@ -54,14 +54,13 @@ function extractFrames() {
 
   function onend(e) {
     var img;
-    // do whatever with the frames
-/*     console.log(array.length)
-    console.log(arraybase[0])
-    console.log(canvas.width,canvas.height)
-    console.log() */
     var size = [canvas.width,canvas.height]; 
+    //jsonify and convert to base64
     jsonToSend = JSON.stringify({ image: arraybase[0], size: size, timing: arraytiming[0] })
-    httpPost(jsonToSend)
+    
+    // just for test
+    httpPost(jsonToSend) 
+    
     for (var i = 0; i < array.length; i++) {
       img = new Image();
       img.onload = revokeURL;
