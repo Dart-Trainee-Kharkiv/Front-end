@@ -16,15 +16,17 @@
 
 <body>
 	<header class="main-header">
-		<div class="logo-block">
-		  <a href="#" class="main-header__logo-link">
-           <img src="img/raund.svg" alt="img">
-	       <div class="logo-link-text">Logo</div>
-	     </a>
-        </div>
-        <div class="speed-check">Speed check</div>
+    <div class="main-header-sidebar">
+	   	<div class="logo-block">
+		    <a href="#" class="main-header__logo-link" >
+           <img src="img/S_speed.svg" alt="img">
+	       <div class="logo-link-text">peedcheck</div>
+	       </a>
+      </div>
+    </div>
+        <div class="speed-check">Speed calculation</div>
         <div class="user-profile">
-           	<img src="img/raund.svg" class="user-block-ava" alt="ava">
+           	<img src="img/user.svg" class="user-block-ava" alt="ava">
            	<div class="user-block">
               <div class="user-block-name">Mark</div> 
               <div class="user-block-role">Administrator</div>  
@@ -36,28 +38,25 @@
       <div class="container-navigation">
      	<nav class="main-navigation">
      	  <ul>
-     		<li>
-     		   <a href="#">Car`s speed</a>	
-     		</li>
-            <li>
-            	<a href="#">Settings</a>	
-            </li>
-            <li>
+     		  <li>
+     		    <a href="#">Calculation</a>	
+     	   	</li>
+          <li>
             	<a href="#">Help</a>
-            </li>
-            <li>
+          </li>
+          <li>
             	<a href="#">English</a>
-            </li>
-              <li>
+          </li>
+          <li>
             	<a href="#">Sing out</a>
-            </li>
+          </li>
      	  </ul>
      	</nav>
       </div>
     <div class="container-video">
      	<div class="video-toggle">
      		<div class="container-video-upload">Upload video</div>
-         <input id="inputvideo" type="file" accept="video/*" />
+         <!-- <input id="inputvideo" type="file" accept="video/*" /> -->
      		<div class="container-video-calculation">Calculation</div>
      	</div>
      	<div class="video-translation">
@@ -72,7 +71,21 @@
      		<button class="btn">ADD VIDEO</button>
          	<button class="btn right">ADD LINK</button>
      	</div>
+    </div>
+
+      <div class="container-result">
+        
+          <!--   <div class="result-name">Result</div> -->
+          <!-- <p id="progress"></p> -->
+          <div class="result-discribe">On this segment of the road the car reg.#AA 2345 is selected and its speed will be calculated.
+          </div>
+        
+         <div class="video-result">
+          <iframe id="frameresult" src="url(Biz-Polestar-NIK_8359.jpg)"></iframe>
+         </div>
+      </div>
        
+
         <div class="container-input">
             <div class="your-data">Your data</div>
             <div class="your-data-form">
@@ -87,13 +100,9 @@
                     </form>
             </div>
         </div>
-    </div>	
     
-      <div class="container-result"> 
-    	<div class="result-name">Result</div>
-      <p id="progress"></p>
-    	<div class="result-discribe">On this segment of the road, the<br>car exceeded speed</div>
-      </div>
+    
+    
     </main>
 
 	</body>
