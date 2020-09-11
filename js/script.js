@@ -1,11 +1,19 @@
 document.addEventListener("DOMContentLoaded", ready);
 
   function ready() {
-document.getElementById('inputvideo').addEventListener('change', extractFrames, false);
+     document.getElementById('button-add-video').addEventListener('click', loadVideo);
+     document.getElementById('inputvideo').addEventListener('change', extractFrames, false);
+
+      function loadVideo() {
+         document.getElementById('inputvideo').click();
+      }
+
 
 function extractFrames() {
-  var video = document.createElement('video');
+  //var video = document.createElement('video');
   //document.body.appendChild(video)
+  
+  var video = document.getElementById("loaded-video")
   var array = [];
   var arraybase = [];
   var arraytiming = [];
@@ -13,7 +21,6 @@ function extractFrames() {
   var ctx = canvas.getContext('2d');
   var pro = document.querySelector('#progress');
   var framerate = 1/30;
-  console.log(framerate)
 
   function initCanvas(e) {
     canvas.width = this.videoWidth;

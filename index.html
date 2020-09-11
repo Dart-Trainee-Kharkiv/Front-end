@@ -56,28 +56,32 @@
     <div class="container-video">
      	<div class="video-toggle">
      		<div class="container-video-upload">Upload video</div>
-         <!-- <input id="inputvideo" type="file" accept="video/*" /> -->
      		<div class="container-video-calculation">Calculation</div>
      	</div>
      	<div class="video-translation">
-     		<iframe 
+<!--      		<iframe 
           id = "framevideo"
 		  srcdoc="<a href=https://www.youtube.com/embed/Y8Wp3dafaMQ>vidos</a>" 
 		  frameborder="0" 
 		  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-		  allowfullscreen>Ваш браузер не поддерживает фреймы.</iframe>
+		  allowfullscreen>Ваш браузер не поддерживает фреймы.</iframe> -->
+        <video width = "640" height = "360" id = "loaded-video">
+          <source src="URL">
+        </video>
      	</div>
      	<div class="buttons">
-     		<button class="btn">ADD VIDEO</button>
-         	<button class="btn right">ADD LINK</button>
+     		<button class="btn" id='button-add-video'>ADD VIDEO</button>
+         <button class="btn right">ADD LINK</button>
+         <input id="inputvideo" type="file" accept="video/*" hidden/> 
      	</div>
     </div>
 
       <div class="container-result">
         
           <!--   <div class="result-name">Result</div> -->
-          <!-- <p id="progress"></p> -->
-          <div class="result-discribe">On this segment of the road the car reg.#AA 2345 is selected and its speed will be calculated.
+          <div class="result-discribe">
+          <p id="progress"></p>
+          On this segment of the road the car reg.#AA 2345 is selected and its speed will be calculated.
           </div>
         
          <div class="video-result">
