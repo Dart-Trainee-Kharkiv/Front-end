@@ -72,14 +72,18 @@ function extractFrames() {
         //again, not ideal, might not be JPEG
         var image = new Image();
         image.onload = function() {
-          ctxUpload.drawImage(image, 0, 0, canv.width, canv.height);
-
+          imgWidth = this.width;
+          imgHeight = this.height;
+          //ctxUpload.drawImage(image, 0, 0, imgWidth, imgHeight);
+          ctxUpload.drawImage(image, 0, 0, 426, 230);
+          let widthCoeff = 426/imgWidth
+          let heightCoeff = 230/imgHeight
           for (let i = 0 ; i < vehicles.length; i++){
             let vehicle = vehicles[i];
             ctxUpload.beginPath();
             ctxUpload.lineWidth = "3";
             ctxUpload.strokeStyle = "red";
-            ctxUpload.rect(vehicle[0], vehicle[1], vehicle[2], vehicle[3]);
+            ctxUpload.rect(vehicle[0]*widthCoeff, vehicle[1]*heightCoeff, vehicle[2]*widthCoeff, vehicle[3]*heightCoeff);
             ctxUpload.stroke();
           }
         };
