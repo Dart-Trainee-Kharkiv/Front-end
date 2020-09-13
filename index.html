@@ -1,4 +1,4 @@
-<DOCTYPE! html>
+<!DOCTYPE html>
 <html ng-app>
 	<head>
 		<meta charset="utf-8">
@@ -8,22 +8,22 @@
 		<link rel="stylesheet" type="text/css" href="css/normalize.css">
 		<link rel="stylesheet" href="css/style.css">
 		<script src="js/script.js"></script>
-      <script src="js/index.js"></script>
 		<script src="https://code.angularjs.org/1.5.8/angular.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	</head>
 
 
 <body>
-	<header class="main-header">
-    <div class="main-header-sidebar">
+	<header class="header">
+    <div class="header-sidebar">
 	   	<div class="logo-block">
-		    <a href="#" class="main-header__logo-link" >
-           <img src="img/S_speed.svg" alt="img">
+		    <a href="#" class="header__logo-link" >
+           <img src="img/S_speed.svg" class="s_speed" alt="img">
 	       <div class="logo-link-text">peedcheck</div>
 	       </a>
       </div>
     </div>
+    <div class="main-header" >
         <div class="speed-check">Speed calculation</div>
         <div class="user-profile">
            	<img src="img/user.svg" class="user-block-ava" alt="ava">
@@ -32,75 +32,99 @@
               <div class="user-block-role">Administrator</div>  
             </div>            
         </div>
-    </header>
+    </div>
+   </header>
 
-    <main class="main-container">
+    <main class="sidebar-container">
       <div class="container-navigation">
-     	<nav class="main-navigation">
-     	  <ul>
-     		  <li>
-     		    <a href="#">Calculation</a>	
-     	   	</li>
-          <li>
-            	<a href="#">Help</a>
-          </li>
-          <li>
-            	<a href="#">English</a>
-          </li>
-          <li>
-            	<a href="#">Sing out</a>
-          </li>
-     	  </ul>
-     	</nav>
+       	<nav class="main-navigation">
+     	    <ul>
+     	  	  <li>
+              <a href="#">
+               <img src="img/calculation.svg" alt="calculation">Calculation</a>	
+     	    	</li>
+            <li>
+            	<a href="#">
+               <img src="img/help.svg" alt="help">Help</a>
+            </li>
+            <li>
+            	<a href="#">
+                <img src="img/english.svg" alt="english">English</a>
+            </li>
+            <li>
+            	<a href="#">
+                <img src="img/logout.svg" alt="sing out">Sing out</a>
+            </li>
+     	    </ul>
+      	</nav>
       </div>
+  
+  <div class="main-container">
     <div class="container-video">
-     	<div class="video-toggle">
-     		<div class="container-video-upload">Upload video</div>
-         <!-- <input id="inputvideo" type="file" accept="video/*" /> -->
-     		<div class="container-video-calculation">Calculation</div>
-     	</div>
-     	<div class="video-translation">
-     		<iframe 
+      <div class="video-toggle">
+     	  	<div class="container-video-upload">Upload video</div>
+     	  	<div class="container-video-calculation">Calculation</div>
+      </div>
+      <div class="select">
+        <button class="btn-select">
+            <img src="img/btn-select.svg" class="btn-select-img" alt="select area">
+        </button>       
+        <div class="select-area">
+          <img src="img/select-area.svg">
+        </div>
+      </div>
+
+     	<div class="video-translation windows">
+<!--      		<iframe 
           id = "framevideo"
 		  srcdoc="<a href=https://www.youtube.com/embed/Y8Wp3dafaMQ>vidos</a>" 
 		  frameborder="0" 
 		  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-		  allowfullscreen>Ваш браузер не поддерживает фреймы.</iframe>
+		  allowfullscreen>Ваш браузер не поддерживает фреймы.</iframe> -->
+        <video width = "640" height = "360" id = "loaded-video">
+          <!--<source src="URL">-->       
+        </video>
      	</div>
+
      	<div class="buttons">
-     		<button class="btn">ADD VIDEO</button>
-         	<button class="btn right">ADD LINK</button>
+     		 <button class="btn" id='button-add-video'>ADD VIDEO</button>
+         <button class="btn right">ADD LINK</button>
+         <input id="inputvideo" type="file" accept="video/*" hidden/> 
      	</div>
+      <div class="warning_message">
+        <img src="img/warning_sign.svg">
+          <div class="warning_mess">On this segment of the road, the car exceeded speed
+         </div>
+
+      </div>
     </div>
 
-      <div class="container-result">
-        
-          <!--   <div class="result-name">Result</div> -->
-          <!-- <p id="progress"></p> -->
-          <div class="result-discribe">On this segment of the road the car reg.#AA 2345 is selected and its speed will be calculated.
-          </div>
-        
-         <div class="video-result">
-          <iframe id="frameresult" src="url(Biz-Polestar-NIK_8359.jpg)"></iframe>
-         </div>
+    <div class="container-result">
+      <div class="result-discribe">
+        <!--   <p id="progress"></p> -->
+        On this segment of the road the car reg.<span class="car-namber">#AA 2345</span> is selected and its speed will be calculated.
       </div>
-       
+        
+      <div class="video-result">
+        <canvas id="test_canvas" width=426 height=240></canvas>
+      </div>
 
         <div class="container-input">
             <div class="your-data">Your data</div>
             <div class="your-data-form">
                     <form class="result-form" action="htpps:" method="post">
-                      <div class="result">Car`s speed</div>
-                         <input type="number" name="speed" value="" placeholder="">
-                      <div class="result">Distance</div>
+                      <div class="result">Distance, km</div>
                          <input type="number" name="distance" value="" placeholder="">
-                      <div class="result">Time</div>
+                      <div class="result">Limit, km/h</div>
                          <input type="number" name="time" value="" placeholder="">
-                    <button class="btn bottom" type="submit">Submit</button>
+                      <button class="btn submit">SUBMIT</button>   
                     </form>
             </div>
         </div>
-    
+    </div>
+  </div>     
+
+        
     
     
     </main>
