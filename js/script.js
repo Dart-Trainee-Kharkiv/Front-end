@@ -143,6 +143,142 @@ function extractFrames() {
   
 }
 
+
+
+
+//upload-calculation toggle
+
+var videoUpload = document.getElementById('container-video-upload');
+var videoCalculation = document.getElementById('container-video-calculation');
+videoUpload.addEventListener('click', videoUploadClick);
+videoCalculation.addEventListener('click', videoCalculationClick);
+
+var videoContainer = document.getElementById("loaded-video-container");
+var addVideoAddLinkButtons = document.getElementById("add-video-add-link-buttons");
+var warningMessage = document.getElementById("warning_message");
+var warningSign = document.getElementById("warning_sign");
+var resultDiscribe = document.getElementById("result-discribe");
+var videoResult = document.getElementById("video-result");
+var containerInput = document.getElementById("container-input");
+
+var calculationElements = document.getElementsByClassName("calculation-element");
+var uploadElements = document.getElementsByClassName("upload-element");
+ 
+function videoUploadClick() {
+ videoUpload.classList.add("container-video-selected");
+ videoCalculation.classList.remove("container-video-selected");
+ 
+   for (let i = 0; i < calculationElements.length; i++) {
+      calculationElements[i].style.display = "none";
+  }
+  for (let i = 0; i < uploadElements.length; i++) {
+      uploadElements[i].style.display = "block";
+  }
+}
+
+function videoCalculationClick() {
+ videoCalculation.classList.add("container-video-selected");
+ videoUpload.classList.remove("container-video-selected");
+ 
+ for (let i = 0; i < calculationElements.length; i++) {
+  calculationElements[i].style.display = "block";
+}
+  for (let i = 0; i < uploadElements.length; i++) {
+      uploadElements[i].style.display = "none";
+  }
+}
+
+
+
+
+
+
+
+//select area section
+var canvas=document.getElementById("calculation-canvas");
+var ctx=canvas.getContext("2d");
+var cw=canvas.width;
+var ch=canvas.height;
+
+function reOffset(){
+  var BB=canvas.getBoundingClientRect();
+  offsetX=BB.left;
+  offsetY=BB.top;        
+}
+
+var offsetX,offsetY;
+reOffset();
+window.onscroll=function(e){ reOffset(); }
+window.onresize=function(e){ reOffset(); }
+
+var isDown=false;
+var startX,startY,mouseX,mouseY;
+
+document.getElementById('btn-select-id').addEventListener('click', start);
+
+var video = document.getElementById("loaded-video")
+
+function start(){
+  console.log('start selecting area');
+  canvas.width=video.width;
+  canvas.height=video.height;
+  $("#calculation-canvas").mousedown(function(e){handleMouseDown(e);});
+  $("#calculation-canvas").mousemove(function(e){handleMouseMove(e);});
+  $("#calculation-canvas").mouseup(function(e){handleMouseUp(e);});
+  $("#calculation-canvas").mouseout(function(e){handleMouseOut(e);});
+}
+
+function handleMouseMove(e){
+  if(!isDown){return;}
+  // tell the browser we're handling this event
+  e.preventDefault();
+  e.stopPropagation();
+
+  mouseX=parseInt(e.clientX-offsetX);
+  mouseY=parseInt(e.clientY-offsetY);
+
+}
+
+function handleMouseOut(e){
+  isDown=false;
+  draw();       
+}
+
+function handleMouseDown(e){
+  // tell the browser we're handling this event
+  e.preventDefault();
+  e.stopPropagation();
+
+  startX=parseInt(e.clientX-offsetX);
+  startY=parseInt(e.clientY-offsetY);
+
+  // Put your mousedown stuff here
+  isDown=true;
+}
+
+function handleMouseUp(e){
+  if(!isDown){return;}
+
+  // tell the browser we're handling this event
+  e.preventDefault();
+  e.stopPropagation();
+
+  mouseX=parseInt(e.clientX-offsetX);
+  mouseY=parseInt(e.clientY-offsetY);
+
+  // Put your mouseup stuff here
+  isDown=false;        
+
+  // create a cropped image
+  capture();
+}
+
+function capture(){
+   console.log('startX = ' + startX + ' startY = ' + startY)
+   console.log('mouseX = ' + mouseX + ' mouseY = ' + mouseY)
+}
+
+
 }
 
 

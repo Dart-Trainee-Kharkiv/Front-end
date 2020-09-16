@@ -4,7 +4,6 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Speed check</title>
-		<link href="https://fonts.google.com/specimen/PT+Serif+Caption?query=S&category=Serif,Display#license" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="css/normalize.css">
 		<link rel="stylesheet" href="css/style.css">
 		<script src="js/script.js"></script>
@@ -62,11 +61,11 @@
   <div class="main-container">
     <div class="container-video">
       <div class="video-toggle">
-     	  	<div class="container-video-upload">Upload video</div>
-     	  	<div class="container-video-calculation">Calculation</div>
+     	  	<div class="container-video-selected container-video-upload" id="container-video-upload">Upload video</div>
+     	  	<div class="container-video-calculation" id="container-video-calculation" >Calculation</div>
       </div>
       <div class="select">
-        <button class="btn-select">
+        <button class="btn-select" id = "btn-select-id">
             <img src="img/btn-select.svg" class="btn-select-img" alt="select area">
         </button>       
         <div class="select-area">
@@ -74,26 +73,28 @@
         </div>
       </div>
 
-     	<div class="video-translation windows">
+     	<div class="video-translation windows upload-element" >
 <!--      		<iframe 
           id = "framevideo"
 		  srcdoc="<a href=https://www.youtube.com/embed/Y8Wp3dafaMQ>vidos</a>" 
 		  frameborder="0" 
 		  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
 		  allowfullscreen>Ваш браузер не поддерживает фреймы.</iframe> -->
-        <video width = "640" height = "360" id = "loaded-video">
+        <video width="640" height="360" id="loaded-video">
           <!--<source src="URL">-->
         </video>
      	</div>
+      <canvas width="640" height="360" id="calculation-canvas" class="calculation-element">
+      </canvas>
 
-     	<div class="buttons">
+     	<div class="buttons upload-element">
      		 <button class="btn" id='button-add-video'>ADD VIDEO</button>
          <button class="btn right">ADD LINK</button>
          <input id="inputvideo" type="file" accept="video/*" hidden/> 
      	</div>
-      <div class="warning_message">
-        <img src="img/warning_sign.svg">
-          <div class="warning_mess">On this segment of the road, the car exceeded speed
+      <div class="warning_message ">
+        <img src="img/warning_sign.svg" class="calculation-element">
+          <div class="warning_mess calculation-element" >On this segment of the road, the car exceeded speed
          </div>
 
       </div>
@@ -101,18 +102,18 @@
 
 
     <div class="container-result">
-      <div class="result-discribe">
-        <!--   <p id="progress"></p> -->
+      <div class="result-discribe upload-element" >
+         <p id="progress"></p>
         On this segment of the road the car reg.<span class="car-namber">#AA 2345</span> is selected and its speed will be calculated.
       </div>
         
-      <div class="video-result">
+      <div class="video-result upload-element" >
         <canvas id="test_canvas" width=426 height=240></canvas>
       </div>
 
-        <div class="container-input">
-            <div class="your-data">Your data</div>
-            <div class="your-data-form">
+        <div class="container-input" >
+            <div class="your-data calculation-element">Your data</div>
+            <div class="your-data-form calculation-element" >
                     <form class="result-form" action="htpps:" method="post">
                       <div class="result">Distance, km</div>
                          <input type="number" name="distance" value="" placeholder="">
@@ -129,6 +130,5 @@
     
     
     </main>
-
 	</body>
 </html>

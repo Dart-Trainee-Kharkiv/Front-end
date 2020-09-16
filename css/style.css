@@ -172,7 +172,8 @@ body {
 	width: 304px;
 	height: 46px;
 	padding-left: 16px;
-	border-bottom: 1px solid #3639A4;
+   color: #8D99AE;
+	border-bottom: 1px solid #8D99AE;
 }
 
 .container-video-calculation {
@@ -181,6 +182,23 @@ body {
 	padding-left: 16px;
 	color: #8D99AE;
 	border-bottom: 1px solid #8D99AE;
+}
+
+.container-video-selected {
+  	color: #3639A4;
+   border-bottom-color: #3639A4;
+}
+
+.calculation-element {
+   display:none;
+}
+
+.upload-element {
+
+}
+
+.hide-element {
+  display: none;
 }
 
 .select {
@@ -219,17 +237,6 @@ body {
 	margin-top: 38px;
 
 }
-.container-video-upload {
-	/*display: none;*/
-	color: #8D99AE;
-	border-bottom: 1px solid #8D99AE;
-}
-.container-video-calculation {
-	/*display: none;*/
-	color: #3639A4;
-	border-bottom: 1px solid #3639A4;;
-}
-
 
 #framevideo {
 	width: 640px;
@@ -336,7 +343,6 @@ body {
 	min-width: 280px;
 	min-height: 400px;
 	color: #3639A4;
-	display: none;
 	
 }
 
