@@ -8,14 +8,13 @@ document.addEventListener("DOMContentLoaded", ready);
          document.getElementById('inputvideo').click();
       }
 
-
+  var arraybase = [];
 function extractFrames() {
   //var video = document.createElement('video');
   //document.body.appendChild(video)
   
   var video = document.getElementById("loaded-video")
   var array = [];
-  var arraybase = [];
   var arraytiming = [];
   var canvas = document.createElement('canvas');
   var ctx = canvas.getContext('2d');
@@ -65,7 +64,7 @@ function extractFrames() {
     xmlHttp.onreadystatechange = function () {
       if (xmlHttp.readyState === 4 && xmlHttp.status === 201) {
          
-        console.log(xmlHttp.responseText);
+        //console.log(xmlHttp.responseText);
         let vehicles = JSON.parse(xmlHttp.responseText).vehicles
 
         //displaying an img that was received and sent back by the server
@@ -99,7 +98,19 @@ function extractFrames() {
 
   function onend(e) {
     var img;
-
+   
+    var canvas=document.getElementById("calculation-canvas");
+    var ctx=canvas.getContext("2d");
+    var cw=canvas.width;
+    var ch=canvas.height;
+    //add image on calculation tab
+    var image = new Image();
+    image.src = "data:image/jpeg;base64,"+arraybase[arraybase.length-1];
+    // refresh canvas by redrawing the paused video frame onto the canvas
+    ctx.drawImage(image,0,0,cw,ch);
+   
+   
+   
     httpPost(arraybase[arraybase.length-1]);
     
     for (var i = 0; i < array.length; i++) {
@@ -153,14 +164,6 @@ var videoCalculation = document.getElementById('container-video-calculation');
 videoUpload.addEventListener('click', videoUploadClick);
 videoCalculation.addEventListener('click', videoCalculationClick);
 
-var videoContainer = document.getElementById("loaded-video-container");
-var addVideoAddLinkButtons = document.getElementById("add-video-add-link-buttons");
-var warningMessage = document.getElementById("warning_message");
-var warningSign = document.getElementById("warning_sign");
-var resultDiscribe = document.getElementById("result-discribe");
-var videoResult = document.getElementById("video-result");
-var containerInput = document.getElementById("container-input");
-
 var calculationElements = document.getElementsByClassName("calculation-element");
 var uploadElements = document.getElementsByClassName("upload-element");
  
@@ -200,6 +203,20 @@ var ctx=canvas.getContext("2d");
 var cw=canvas.width;
 var ch=canvas.height;
 
+function draw(){
+    //add image on calculation tab
+    var image = new Image();
+    image.src = "data:image/jpeg;base64,"+arraybase[arraybase.length-1];
+    // refresh canvas by redrawing the paused video frame onto the canvas
+    ctx.drawImage(image,0,0,canvas.width,canvas.height);
+    // stroke a rectangle based on the users starting & current mouse position
+    ctx.beginPath();
+    ctx.lineWidth = "3";
+    ctx.strokeStyle = "red";    
+    ctx.rect(startX,startY,mouseX-startX,mouseY-startY);
+    ctx.stroke();
+}
+
 function reOffset(){
   var BB=canvas.getBoundingClientRect();
   offsetX=BB.left;
@@ -222,6 +239,7 @@ function start(){
   console.log('start selecting area');
   canvas.width=video.width;
   canvas.height=video.height;
+  draw();
   $("#calculation-canvas").mousedown(function(e){handleMouseDown(e);});
   $("#calculation-canvas").mousemove(function(e){handleMouseMove(e);});
   $("#calculation-canvas").mouseup(function(e){handleMouseUp(e);});
@@ -236,6 +254,7 @@ function handleMouseMove(e){
 
   mouseX=parseInt(e.clientX-offsetX);
   mouseY=parseInt(e.clientY-offsetY);
+  draw();
 
 }
 
@@ -276,6 +295,20 @@ function handleMouseUp(e){
 function capture(){
    console.log('startX = ' + startX + ' startY = ' + startY)
    console.log('mouseX = ' + mouseX + ' mouseY = ' + mouseY)
+}
+
+
+
+
+//submit calculation form
+var resultForm = document.getElementById('result-form')
+resultForm.addEventListener('submit', submitResult);
+
+function submitResult() {
+  var dataArr = $("#result-form").serializeArray() ;
+  dataArr.push({"name" : "area-rect", "value" : [startX,startY,mouseX,mouseY]});
+  console.log(JSON.stringify(dataArr));
+  
 }
 
 

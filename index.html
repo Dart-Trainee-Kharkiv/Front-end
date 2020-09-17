@@ -65,10 +65,10 @@
      	  	<div class="container-video-calculation" id="container-video-calculation" >Calculation</div>
       </div>
       <div class="select">
-        <button class="btn-select" id = "btn-select-id">
+        <button class="btn-select calculation-element" id = "btn-select-id">
             <img src="img/btn-select.svg" class="btn-select-img" alt="select area">
         </button>       
-        <div class="select-area">
+        <div class="select-area calculation-element">
           <img src="img/select-area.svg">
         </div>
       </div>
@@ -114,11 +114,11 @@
         <div class="container-input" >
             <div class="your-data calculation-element">Your data</div>
             <div class="your-data-form calculation-element" >
-                    <form class="result-form" action="htpps:" method="post">
+                    <form class="result-form" id ="result-form">
                       <div class="result">Distance, km</div>
-                         <input type="number" name="distance" value="" placeholder="">
+                         <input type="number" step="0.01" min="0" name="distance" value="" placeholder="">
                       <div class="result">Limit, km/h</div>
-                         <input type="number" name="time" value="" placeholder="">
+                         <input type="number" name="speed-limit" value="" placeholder="">
                       <button class="btn submit">SUBMIT</button>   
                     </form>
             </div>
