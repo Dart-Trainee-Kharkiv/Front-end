@@ -28,6 +28,7 @@ function extractFrames() {
   function initCanvas(e) {
     canvas.width = this.videoWidth;
     canvas.height = this.videoHeight;
+    start()
   }
 
   function drawFrame(e) {
@@ -96,9 +97,9 @@ function extractFrames() {
    // return xmlHttp.responseText;
 }
 
-  function onend(e) {
+  function onend(e) { 
     var img;
-   
+    
     var canvas=document.getElementById("calculation-canvas");
     var ctx=canvas.getContext("2d");
     var cw=canvas.width;
@@ -132,16 +133,16 @@ function extractFrames() {
   video.src = URL.createObjectURL(this.files[0]);
   
    function checkTime() {
-      if(video.currentTime > 0 && array.length <= Math.floor(video.currentTime/framerate)) {
+      if(array.length <= Math.floor(video.currentTime/framerate)) {
       video.pause();
       drawFrame();
-      video.play();
+      if (video.currentTime < video.duration) video.play();
       }
       if (video.currentTime >= video.duration) {
         video.pause();
         onend();
      } else {
-         /* call checkTime every 1/60th 
+         /* call checkTime every 1/30th 
          second until endTime */
           setTimeout(checkTime, 1000/(1/framerate));
    }
@@ -150,7 +151,6 @@ function extractFrames() {
    video.play();
    checkTime();
   }
-  start();
   
 }
 
@@ -158,6 +158,8 @@ function extractFrames() {
 
 
 //upload-calculation toggle
+  var selectAreaImage = new Image();
+
 
 var videoUpload = document.getElementById('container-video-upload');
 var videoCalculation = document.getElementById('container-video-calculation');
@@ -189,6 +191,12 @@ function videoCalculationClick() {
   for (let i = 0; i < uploadElements.length; i++) {
       uploadElements[i].style.display = "none";
   }
+  
+  //add image on calculation tab
+
+  selectAreaImage.crossOrigin='anonymous';
+  selectAreaImage.onload=start;
+  selectAreaImage.src = "data:image/jpeg;base64,"+arraybase[arraybase.length-1];
 }
 
 
@@ -198,27 +206,13 @@ function videoCalculationClick() {
 
 
 //select area section
-var canvas=document.getElementById("calculation-canvas");
-var ctx=canvas.getContext("2d");
-var cw=canvas.width;
-var ch=canvas.height;
-
-function draw(){
-    //add image on calculation tab
-    var image = new Image();
-    image.src = "data:image/jpeg;base64,"+arraybase[arraybase.length-1];
-    // refresh canvas by redrawing the paused video frame onto the canvas
-    ctx.drawImage(image,0,0,canvas.width,canvas.height);
-    // stroke a rectangle based on the users starting & current mouse position
-    ctx.beginPath();
-    ctx.lineWidth = "3";
-    ctx.strokeStyle = "red";    
-    ctx.rect(startX,startY,mouseX-startX,mouseY-startY);
-    ctx.stroke();
-}
+var canvasArea=document.getElementById("calculation-canvas");
+var ctx=canvasArea.getContext("2d");
+var cw=canvasArea.width;
+var ch=canvasArea.height;
 
 function reOffset(){
-  var BB=canvas.getBoundingClientRect();
+  var BB=canvasArea.getBoundingClientRect();
   offsetX=BB.left;
   offsetY=BB.top;        
 }
@@ -231,14 +225,11 @@ window.onresize=function(e){ reOffset(); }
 var isDown=false;
 var startX,startY,mouseX,mouseY;
 
-document.getElementById('btn-select-id').addEventListener('click', start);
-
-var video = document.getElementById("loaded-video")
+//document.getElementById('btn-select-id').addEventListener('click', start);
 
 function start(){
+  reOffset();
   console.log('start selecting area');
-  canvas.width=video.width;
-  canvas.height=video.height;
   draw();
   $("#calculation-canvas").mousedown(function(e){handleMouseDown(e);});
   $("#calculation-canvas").mousemove(function(e){handleMouseMove(e);});
@@ -246,21 +237,22 @@ function start(){
   $("#calculation-canvas").mouseout(function(e){handleMouseOut(e);});
 }
 
-function handleMouseMove(e){
-  if(!isDown){return;}
-  // tell the browser we're handling this event
-  e.preventDefault();
-  e.stopPropagation();
-
-  mouseX=parseInt(e.clientX-offsetX);
-  mouseY=parseInt(e.clientY-offsetY);
-  draw();
-
+function draw(){
+    // refresh canvas by redrawing the paused video frame onto the canvas
+    ctx.drawImage(selectAreaImage,0,0,canvasArea.width,canvasArea.height);
+    
+    if(!isDown){return;}
+    // stroke a rectangle based on the users starting & current mouse position
+    ctx.beginPath();
+    ctx.lineWidth = "3";
+    ctx.strokeStyle = "red";    
+    ctx.rect(startX,startY,mouseX-startX,mouseY-startY);
+    ctx.stroke();
 }
 
-function handleMouseOut(e){
-  isDown=false;
-  draw();       
+function capture(){
+   console.log('startX = ' + startX + ' startY = ' + startY)
+   console.log('mouseX = ' + mouseX + ' mouseY = ' + mouseY)
 }
 
 function handleMouseDown(e){
@@ -274,6 +266,7 @@ function handleMouseDown(e){
   // Put your mousedown stuff here
   isDown=true;
 }
+
 
 function handleMouseUp(e){
   if(!isDown){return;}
@@ -292,10 +285,27 @@ function handleMouseUp(e){
   capture();
 }
 
-function capture(){
-   console.log('startX = ' + startX + ' startY = ' + startY)
-   console.log('mouseX = ' + mouseX + ' mouseY = ' + mouseY)
+
+function handleMouseOut(e){
+  isDown=false;
+  draw();       
 }
+
+function handleMouseMove(e){
+  if(!isDown){return;}
+  // tell the browser we're handling this event
+  e.preventDefault();
+  e.stopPropagation();
+
+  mouseX=parseInt(e.clientX-offsetX);
+  mouseY=parseInt(e.clientY-offsetY);
+  draw();
+
+}
+
+
+
+
 
 
 
