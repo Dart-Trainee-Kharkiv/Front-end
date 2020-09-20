@@ -1,19 +1,30 @@
 document.addEventListener("DOMContentLoaded", ready);
 
   function ready() {
-document.getElementById('inputvideo').addEventListener('change', extractFrames, false);
+     document.getElementById('button-add-video').addEventListener('click', loadVideo);
+     document.getElementById('inputvideo').addEventListener('change', extractFrames, false);
+
+      function loadVideo() {
+         document.getElementById('inputvideo').click();
+      }
+
 
 function extractFrames() {
-  var video = document.createElement('video');
+  //var video = document.createElement('video');
   //document.body.appendChild(video)
+  
+  var video = document.getElementById("loaded-video")
   var array = [];
   var arraybase = [];
   var arraytiming = [];
   var canvas = document.createElement('canvas');
   var ctx = canvas.getContext('2d');
+  
+  const canv = document.getElementById('test_canvas');
+  const ctxUpload = canv.getContext("2d");
+  
   var pro = document.querySelector('#progress');
   var framerate = 1/30;
-  console.log(framerate)
 
   function initCanvas(e) {
     canvas.width = this.videoWidth;
@@ -21,7 +32,6 @@ function extractFrames() {
   }
 
   function drawFrame(e) {
-    console.log(array.length, Math.floor(video.currentTime/framerate), video.currentTime)
     ctx.drawImage(video, 0, 0);
     /* 
     this will save as a Blob, less memory consumptive than toDataURL
@@ -34,6 +44,8 @@ function extractFrames() {
     arraytiming.push(video.currentTime);
     pro.innerHTML = ((video.currentTime / video.duration) * 100).toFixed(2) + ' %';  
   }
+  
+  
 
   function saveFrame(blob) {
     array.push(blob);
@@ -46,20 +58,45 @@ function extractFrames() {
   function httpPost(data, theUrl='http://127.0.0.1:5000/')
 {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "POST", theUrl, false ); // false for synchronous request
+    xmlHttp.open( 'POST', theUrl + '/img', true ); // true for asynchronous request
     xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-    xmlHttp.send( data );
-    return xmlHttp.responseText;
+    
+      //function that will be triggered once the request will be filled
+    xmlHttp.onreadystatechange = function () {
+      if (xmlHttp.readyState === 4 && xmlHttp.status === 201) {
+         
+        console.log(xmlHttp.responseText);
+        let vehicles = JSON.parse(xmlHttp.responseText).vehicles
+
+        //displaying an img that was received and sent back by the server
+        //again, not ideal, might not be JPEG
+        var image = new Image();
+        image.onload = function() {
+          ctxUpload.drawImage(image, 0, 0, canv.width, canv.height);
+
+          for (let i = 0 ; i < vehicles.length; i++){
+            let vehicle = vehicles[i];
+            ctxUpload.beginPath();
+            ctxUpload.lineWidth = "3";
+            ctxUpload.strokeStyle = "red";
+            ctxUpload.rect(vehicle[0], vehicle[1], vehicle[2], vehicle[3]);
+            ctxUpload.stroke();
+          }
+        };
+        image.src = "data:image/jpeg;base64,"+data;
+      }
+  };
+        //jsonify and convert to base64
+    var size = [canvas.width,canvas.height]; 
+    jsonToSend = JSON.stringify({ 'image': data, 'size': size, 'timing': arraytiming[0] })
+    xmlHttp.send( jsonToSend );
+   // return xmlHttp.responseText;
 }
 
   function onend(e) {
     var img;
-    var size = [canvas.width,canvas.height]; 
-    //jsonify and convert to base64
-    jsonToSend = JSON.stringify({ image: arraybase[0], size: size, timing: arraytiming[0] })
-    
-    // just for test
-    httpPost(jsonToSend) 
+
+    httpPost(arraybase[arraybase.length-1]);
     
     for (var i = 0; i < array.length; i++) {
       img = new Image();
