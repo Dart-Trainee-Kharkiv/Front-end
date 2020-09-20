@@ -97,9 +97,50 @@ function extractFrames() {
    // return xmlHttp.responseText;
 }
 
+  function httpPostTracking(data, theUrl='http://127.0.0.1:5000/')
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( 'POST', theUrl + '/tracking', true ); // true for asynchronous request
+    xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+    
+/*     //function that will be triggered once the request will be filled
+    xmlHttp.onreadystatechange = function () {
+      if (xmlHttp.readyState === 4 && xmlHttp.status === 201) {
+         
+        //console.log(xmlHttp.responseText);
+        let vehicles = JSON.parse(xmlHttp.responseText).vehicles
+
+        //displaying an img that was received and sent back by the server
+        //again, not ideal, might not be JPEG
+        var image = new Image();
+        image.onload = function() {
+          imgWidth = this.width;
+          imgHeight = this.height;
+          //ctxUpload.drawImage(image, 0, 0, imgWidth, imgHeight);
+          ctxUpload.drawImage(image, 0, 0, 426, 230);
+          let widthCoeff = 426/imgWidth
+          let heightCoeff = 230/imgHeight
+          for (let i = 0 ; i < vehicles.length; i++){
+            let vehicle = vehicles[i];
+            ctxUpload.beginPath();
+            ctxUpload.lineWidth = "3";
+            ctxUpload.strokeStyle = "red";
+            ctxUpload.rect(vehicle[0]*widthCoeff, vehicle[1]*heightCoeff, vehicle[2]*widthCoeff, vehicle[3]*heightCoeff);
+            ctxUpload.stroke();
+          }
+        };
+        image.src = "data:image/jpeg;base64,"+data;
+      }
+  }; */
+        //jsonify and convert to base64    
+    jsonToSend = JSON.stringify({ 'frames': data,})
+    xmlHttp.send( jsonToSend );
+   // return xmlHttp.responseText;
+}
+
   function onend(e) { 
     var img;
-    
+    console.log(arraytiming)
     var canvas=document.getElementById("calculation-canvas");
     var ctx=canvas.getContext("2d");
     var cw=canvas.width;
@@ -111,8 +152,8 @@ function extractFrames() {
     ctx.drawImage(image,0,0,cw,ch);
    
    
-   
-    httpPost(arraybase[arraybase.length-1]);
+    httpPostTracking(arraybase);
+    httpPost(arraybase[0]);
     
     for (var i = 0; i < array.length; i++) {
       img = new Image();
@@ -133,7 +174,7 @@ function extractFrames() {
   video.src = URL.createObjectURL(this.files[0]);
   
    function checkTime() {
-      if(array.length <= Math.floor(video.currentTime/framerate)) {
+      if(video.currentTime > 0 && array.length <= Math.floor(video.currentTime/framerate)) {
       video.pause();
       drawFrame();
       if (video.currentTime < video.duration) video.play();
