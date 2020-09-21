@@ -4,7 +4,6 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Speed check</title>
-		<link href="https://fonts.google.com/specimen/PT+Serif+Caption?query=S&category=Serif,Display#license" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="css/normalize.css">
 		<link rel="stylesheet" href="css/style.css">
 		<script src="js/script.js"></script>
@@ -59,72 +58,83 @@
       	</nav>
       </div>
   
+
   <div class="main-container">
     <div class="container-video">
-      <div class="video-toggle">
-     	  	<div class="container-video-upload">Upload video</div>
-     	  	<div class="container-video-calculation">Calculation</div>
-      </div>
-      <div class="select">
-        <button class="btn-select">
-            <img src="img/btn-select.svg" class="btn-select-img" alt="select area">
-        </button>       
-        <div class="select-area">
-          <img src="img/select-area.svg">
-        </div>
-      </div>
+       <div class="video-toggle">
+     	  	<div class="container-video-selected container-video-upload" id="container-video-upload">Upload video</div>
+     	  	<div class="container-video-calculation" id="container-video-calculation" >Calculation</div>
+       </div>
+       <div class="select">
+        <img src="img/btn-select.svg" class="btn-select calculation-element" id = "btn-select-id">
+       </div>
 
-     	<div class="video-translation windows">
+      <div class="video-translation windows upload-element" >
 <!--      		<iframe 
           id = "framevideo"
 		  srcdoc="<a href=https://www.youtube.com/embed/Y8Wp3dafaMQ>vidos</a>" 
 		  frameborder="0" 
 		  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
 		  allowfullscreen>Ваш браузер не поддерживает фреймы.</iframe> -->
-        <video width = "640" height = "360" id = "loaded-video">
-          <!--<source src="URL">-->       
+        <video width="100%" height="360" id="loaded-video">
+             <!--<source src="URL">-->
+          <canvas id="calculation-canvas" class="calculation-element">
+          </canvas>
         </video>
-     	</div>
-
-     	<div class="buttons">
+      </div>
+   
+     	<div class="buttons upload-element">
      		 <button class="btn" id='button-add-video'>ADD VIDEO</button>
          <button class="btn right">ADD LINK</button>
          <input id="inputvideo" type="file" accept="video/*" hidden/> 
      	</div>
-      <div class="warning_message">
-        <img src="img/warning_sign.svg">
-          <div class="warning_mess">On this segment of the road, the car exceeded speed
-         </div>
 
-      </div>
+      <div class="warning_message ">
+        <div class="warning-red">
+           <img src="img/warning_sign.svg" class="calculation-element">
+            <div class="warning_mess calculation-element" >On this segment of the road, the car exceeded speed
+            </div>
+        </div>
+        <div class="warning-yellow">
+           <img src="img/warning_sign_yellow.svg" class="calculation-element">
+            <div class="warning_mess calculation-element">Сar’s speed is equal to the limit
+            </div>
+        </div>
+        <div class="warnind-green">
+           <img src="img/warning_sign_green.svg" class="calculation-element">
+            <div class="warning_mess calculation-element">Сar’s speed does not exceed the limit
+            </div>
+        </div> 
+     </div>
     </div>
 
+
     <div class="container-result">
-      <div class="result-discribe">
-        <!--   <p id="progress"></p> -->
+      <div class="video-result upload-element" >
+        <canvas id="test_canvas" width="400" height="240"></canvas>
+      </div>
+      
+      <div class="result-discribe upload-element" >
+         <p id="progress"></p>
         On this segment of the road the car reg.<span class="car-namber">#AA 2345</span> is selected and its speed will be calculated.
       </div>
-        
-      <div class="video-result">
-        <canvas id="test_canvas" width=426 height=240></canvas>
-      </div>
 
-        <div class="container-input">
-            <div class="your-data">Your data</div>
-            <div class="your-data-form">
-                    <form class="result-form" action="htpps:" method="post">
-                      <div class="result">Distance, km</div>
-                         <input type="number" name="distance" value="" placeholder="">
-                      <div class="result">Limit, km/h</div>
-                         <input type="number" name="time" value="" placeholder="">
-                      <button class="btn submit">SUBMIT</button>   
-                    </form>
+      <div class="container-input" >
+          <div class="your-data calculation-element">Your data</div>
+          <div class="your-data-form calculation-element" >
+              <form class="result-form" id ="result-form">
+                <div class="result">Distance, km</div>
+                  <input type="number" step="0.01" min="0" name="distance" value="" placeholder="">
+                <div class="result">Limit, km/h</div>
+                  <input type="number" name="speed-limit" value="" placeholder="">
+                  <button class="btn submit">SUBMIT</button>   
+              </form>
             </div>
         </div>
     </div>
+
   </div>     
-  
-   
-  </main>
-	</body>
+</main>
+
+</body>
 </html>
