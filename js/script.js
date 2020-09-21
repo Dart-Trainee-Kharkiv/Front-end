@@ -3,14 +3,6 @@ document.addEventListener("DOMContentLoaded", ready);
   function ready() {
      document.getElementById('button-add-video').addEventListener('click', loadVideo);
      document.getElementById('inputvideo').addEventListener('change', extractFrames, false);
-<<<<<<< HEAD
-
-      function loadVideo() {
-         document.getElementById('inputvideo').click();
-      }
-
-=======
->>>>>>> 5933a94d26d1703430a2b3725bf0d304e794a851
 
       function loadVideo() {
          document.getElementById('inputvideo').click();
@@ -73,40 +65,6 @@ function extractFrames() {
     xmlHttp.onreadystatechange = function () {
       if (xmlHttp.readyState === 4 && xmlHttp.status === 201) {
          
-<<<<<<< HEAD
-        console.log(xmlHttp.responseText);
-        let vehicles = JSON.parse(xmlHttp.responseText).vehicles
-
-        //displaying an img that was received and sent back by the server
-        //again, not ideal, might not be JPEG
-        var image = new Image();
-        image.onload = function() {
-          ctxUpload.drawImage(image, 0, 0, canv.width, canv.height);
-
-          for (let i = 0 ; i < vehicles.length; i++){
-            let vehicle = vehicles[i];
-            ctxUpload.beginPath();
-            ctxUpload.lineWidth = "3";
-            ctxUpload.strokeStyle = "red";
-            ctxUpload.rect(vehicle[0], vehicle[1], vehicle[2], vehicle[3]);
-            ctxUpload.stroke();
-          }
-        };
-        image.src = "data:image/jpeg;base64,"+data;
-      }
-  };
-        //jsonify and convert to base64
-    var size = [canvas.width,canvas.height]; 
-    jsonToSend = JSON.stringify({ 'image': data, 'size': size, 'timing': arraytiming[0] })
-    xmlHttp.send( jsonToSend );
-   // return xmlHttp.responseText;
-}
-
-  function onend(e) {
-    var img;
-
-    httpPost(arraybase[arraybase.length-1]);
-=======
         //console.log(xmlHttp.responseText);
         let vehicles = JSON.parse(xmlHttp.responseText).vehicles
 
@@ -194,9 +152,8 @@ function extractFrames() {
     ctx.drawImage(image,0,0,cw,ch);
    
    
-    httpPostTracking(arraybase);
+    //httpPostTracking(arraybase);
     httpPost(arraybase[0]);
->>>>>>> 5933a94d26d1703430a2b3725bf0d304e794a851
     
     for (var i = 0; i < array.length; i++) {
       img = new Image();
@@ -407,6 +364,5 @@ function submitResult() {
 
 
 }
-
 
 
