@@ -103,7 +103,7 @@ function extractFrames() {
     xmlHttp.open( 'POST', theUrl + '/tracking', true ); // true for asynchronous request
     xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     
-/*     //function that will be triggered once the request will be filled
+    //function that will be triggered once the request will be filled
     xmlHttp.onreadystatechange = function () {
       if (xmlHttp.readyState === 4 && xmlHttp.status === 201) {
          
@@ -129,9 +129,9 @@ function extractFrames() {
             ctxUpload.stroke();
           }
         };
-        image.src = "data:image/jpeg;base64,"+data;
+        image.src = "data:image/jpeg;base64,"+data[0];
       }
-  }; */
+  };
         //jsonify and convert to base64    
     jsonToSend = JSON.stringify({ 'frames': data,})
     xmlHttp.send( jsonToSend );
@@ -152,8 +152,8 @@ function extractFrames() {
     ctx.drawImage(image,0,0,cw,ch);
    
    
-    //httpPostTracking(arraybase);
-    httpPost(arraybase[0]);
+    httpPostTracking(arraybase);
+    //httpPost(arraybase[0]);
     
     for (var i = 0; i < array.length; i++) {
       img = new Image();
