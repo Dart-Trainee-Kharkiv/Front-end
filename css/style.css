@@ -102,7 +102,7 @@ body {
 	flex-direction: row;
 	justify-content: flex-start;
 	width: 100%;
-	
+
 }
 
 .container-navigation {
@@ -137,14 +137,18 @@ body {
 }
 
 .main-navigation img {
-    padding-right: 16px;
+	padding-right: 16px;
 
 }
 
 .main-navigation a:hover {
-	background: no-repeat url(../img/redPoint.svg);
-}
+/*	display: inline-block;
+    padding-top: -10px;
+    padding-left: -20px;*/
+    background: no-repeat url(../img/redPoint.svg);
 
+	
+}
 
 
 .main-container {
@@ -158,7 +162,6 @@ body {
 
 .container-video {
 	min-width: 50%;
-	max-width: 60%;
 	padding-left: 3%;
 	padding-top: 60px;
 }
@@ -203,27 +206,34 @@ body {
   display: none;
 }
 
+.calculation-element {
+   display:none;
+}
+
+
 .select {
 	/*display: none;*/
 	height: 64px;
 }
 
 
-.calculation-element {
-   display:none;
-}
-
-
 .btn-select {
-	position: absolute;
+	position: relative;
+    padding-top: 32px;
+  /*  z-index: 1;*/
+   
+
+/*	position: absolute;
 	padding-top: 32px;
-	border: 1px solid #FFFFFF;
+	border: 1px solid #FFFFFF;*/
 
 }
 
 .btn-select:hover {
-	position: relative;
+	position: absolute;
 	background: no-repeat url(../img/select-area.svg);
+/*	z-index: 10;
+	padding-top: -30px;*/
 }
 
 
@@ -240,11 +250,13 @@ body {
 
 }
 
-#framevideo {
-	width: 100%;
-	height: 100%; /*360px;*/
-	border: 1px solid #7D7E8D; 	
+
+.canvas-translation {
+	padding-top: 32px;
+    width: 100%;
+    height: 360px;
 }
+
 
 .buttons {
 	display: none;
@@ -273,6 +285,7 @@ body {
 .btn:hover {
 	background: #2B2D42;
 }
+
 
 
 .warning_message {
