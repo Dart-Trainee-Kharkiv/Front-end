@@ -9,13 +9,17 @@ document.addEventListener("DOMContentLoaded", ready);
       }
 
   var arraybase = [];
+  let finishBoxes = [];
+  let coords = [];
+  var arraytiming = [];
+  let imgWidth = 0;
+  let imgHeight = 0;
 function extractFrames() {
   //var video = document.createElement('video');
   //document.body.appendChild(video)
   
   var video = document.getElementById("loaded-video")
   var array = [];
-  var arraytiming = [];
   var canvas = document.createElement('canvas');
   var ctx = canvas.getContext('2d');
   
@@ -55,48 +59,7 @@ function extractFrames() {
     URL.revokeObjectURL(this.src);
   }
   
-  function httpPost(data, theUrl='http://127.0.0.1:5000/')
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( 'POST', theUrl + '/img', true ); // true for asynchronous request
-    xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-    
-      //function that will be triggered once the request will be filled
-    xmlHttp.onreadystatechange = function () {
-      if (xmlHttp.readyState === 4 && xmlHttp.status === 201) {
-         
-        //console.log(xmlHttp.responseText);
-        let vehicles = JSON.parse(xmlHttp.responseText).vehicles
-
-        //displaying an img that was received and sent back by the server
-        //again, not ideal, might not be JPEG
-        var image = new Image();
-        image.onload = function() {
-          imgWidth = this.width;
-          imgHeight = this.height;
-          //ctxUpload.drawImage(image, 0, 0, imgWidth, imgHeight);
-          ctxUpload.drawImage(image, 0, 0, 426, 230);
-          let widthCoeff = 426/imgWidth
-          let heightCoeff = 230/imgHeight
-          for (let i = 0 ; i < vehicles.length; i++){
-            let vehicle = vehicles[i];
-            ctxUpload.beginPath();
-            ctxUpload.lineWidth = "3";
-            ctxUpload.strokeStyle = "red";
-            ctxUpload.rect(vehicle[0]*widthCoeff, vehicle[1]*heightCoeff, vehicle[2]*widthCoeff, vehicle[3]*heightCoeff);
-            ctxUpload.stroke();
-          }
-        };
-        image.src = "data:image/jpeg;base64,"+data;
-      }
-  };
-        //jsonify and convert to base64
-    var size = [canvas.width,canvas.height]; 
-    jsonToSend = JSON.stringify({ 'image': data, 'size': size, 'timing': arraytiming[0] })
-    xmlHttp.send( jsonToSend );
-   // return xmlHttp.responseText;
-}
-
+  
   function httpPostTracking(data, theUrl='http://127.0.0.1:5000/')
 {
     var xmlHttp = new XMLHttpRequest();
@@ -107,9 +70,9 @@ function extractFrames() {
     xmlHttp.onreadystatechange = function () {
       if (xmlHttp.readyState === 4 && xmlHttp.status === 201) {
          
-        //console.log(xmlHttp.responseText);
-        let vehicles = JSON.parse(xmlHttp.responseText).vehicles
-
+        let vehicles = JSON.parse(xmlHttp.responseText).startBoxes;
+        finishBoxes = JSON.parse(xmlHttp.responseText).finishBoxes;
+        coords = JSON.parse(xmlHttp.responseText).coords
         //displaying an img that was received and sent back by the server
         //again, not ideal, might not be JPEG
         var image = new Image();
@@ -118,10 +81,12 @@ function extractFrames() {
           imgHeight = this.height;
           //ctxUpload.drawImage(image, 0, 0, imgWidth, imgHeight);
           ctxUpload.drawImage(image, 0, 0, 426, 230);
+
           let widthCoeff = 426/imgWidth
           let heightCoeff = 230/imgHeight
           for (let i = 0 ; i < vehicles.length; i++){
             let vehicle = vehicles[i];
+
             ctxUpload.beginPath();
             ctxUpload.lineWidth = "3";
             ctxUpload.strokeStyle = "red";
@@ -140,7 +105,7 @@ function extractFrames() {
 
   function onend(e) { 
     var img;
-    console.log(arraytiming)
+    //console.log(arraytiming)
     var canvas=document.getElementById("calculation-canvas");
     var ctx=canvas.getContext("2d");
     var cw=canvas.width;
@@ -169,7 +134,7 @@ function extractFrames() {
 
   video.addEventListener('loadedmetadata', initCanvas, false);
   //video.addEventListener('timeupdate', drawFrame, false);
-  video.addEventListener('ended', onend, false);
+  //video.addEventListener('ended', onend, false);
 
   video.src = URL.createObjectURL(this.files[0]);
   
@@ -188,6 +153,7 @@ function extractFrames() {
           setTimeout(checkTime, 1000/(1/framerate));
    }
    }
+   
   function start(){
    video.play();
    checkTime();
@@ -270,7 +236,6 @@ var startX,startY,mouseX,mouseY;
 
 function start(){
   reOffset();
-  console.log('start selecting area');
   draw();
   $("#calculation-canvas").mousedown(function(e){handleMouseDown(e);});
   $("#calculation-canvas").mousemove(function(e){handleMouseMove(e);});
@@ -283,17 +248,19 @@ function draw(){
     ctx.drawImage(selectAreaImage,0,0,canvasArea.width,canvasArea.height);
     
     if(!isDown){return;}
-    // stroke a rectangle based on the users starting & current mouse position
+    // stroke a line based on the users starting & current mouse position
     ctx.beginPath();
     ctx.lineWidth = "3";
     ctx.strokeStyle = "red";    
-    ctx.rect(startX,startY,mouseX-startX,mouseY-startY);
+    //ctx.rect(startX,startY,mouseX-startX,mouseY-startY);
+    ctx.moveTo(startX,startY);    
+    ctx.lineTo(mouseX,mouseY);  
     ctx.stroke();
 }
 
 function capture(){
-   console.log('startX = ' + startX + ' startY = ' + startY)
-   console.log('mouseX = ' + mouseX + ' mouseY = ' + mouseY)
+   //console.log('startX = ' + startX + ' startY = ' + startY)
+   //console.log('mouseX = ' + mouseX + ' mouseY = ' + mouseY)
 }
 
 function handleMouseDown(e){
@@ -303,6 +270,7 @@ function handleMouseDown(e){
 
   startX=parseInt(e.clientX-offsetX);
   startY=parseInt(e.clientY-offsetY);
+  
 
   // Put your mousedown stuff here
   isDown=true;
@@ -329,7 +297,7 @@ function handleMouseUp(e){
 
 function handleMouseOut(e){
   isDown=false;
-  draw();       
+  //draw();       
 }
 
 function handleMouseMove(e){
@@ -347,7 +315,8 @@ function handleMouseMove(e){
 
 
 
-
+//  let finishBoxes = [];
+ // let coords = [];
 
 
 
@@ -358,10 +327,39 @@ resultForm.addEventListener('submit', submitResult);
 function submitResult() {
   var dataArr = $("#result-form").serializeArray() ;
   dataArr.push({"name" : "area-rect", "value" : [startX,startY,mouseX,mouseY]});
-  console.log(JSON.stringify(dataArr));
+  let roadDistance = Math.sqrt((mouseX-startX)**2+(mouseY-startY)**2) 
+  let roadMetres = dataArr[0].value;
+  //console.log(JSON.stringify(dataArr));
   
-}
+  //ctxUpload.drawImage(image, 0, 0, imgWidth, imgHeight);
+  ctx.drawImage(selectAreaImage,0,0,canvasArea.width,canvasArea.height);
+  let widthCoeff = 640/imgWidth
+  let heightCoeff = 360/imgHeight
+     for (let i = 0 ; i < finishBoxes.length; i++){
+      let vehicle = finishBoxes[i];
+      ctx.beginPath();
+      ctx.lineWidth = "3";
+      ctx.strokeStyle = "red";
+      ctx.rect(vehicle[0]*widthCoeff, vehicle[1]*heightCoeff, vehicle[2]*widthCoeff, vehicle[3]*heightCoeff);
+      ctx.stroke();
+      }
+      
+   //calculation speed
+   let time = arraytiming[arraytiming.length-1]-arraytiming[0]
+   for (let coord of coords) {
+      let startX = coord[0]
+      let startY = coord[1]
+      let finishX = coord[2]
+      let finishY = coord[3]
+      let vehicleDistance = Math.sqrt((finishX-startX)**2+(finishY-startY)**2)
+      let distanceMeters = vehicleDistance/roadDistance*roadMetres;
+      let speedMS = distanceMeters/time;
+      let speedKH = speedMS*3.6
+      console.log(speedKH)
+   }
+  
 
+}
 
 }
 
