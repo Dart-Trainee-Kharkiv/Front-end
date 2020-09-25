@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", ready);
 
   var arraybase = [];
   let finishBoxes = [];
+  let startBoxes = [];
   let coords = [];
   var arraytiming = [];
   let imgWidth = 0;
@@ -70,7 +71,7 @@ function extractFrames() {
     xmlHttp.onreadystatechange = function () {
       if (xmlHttp.readyState === 4 && xmlHttp.status === 201) {
          
-        let vehicles = JSON.parse(xmlHttp.responseText).startBoxes;
+        startBoxes = JSON.parse(xmlHttp.responseText).startBoxes;
         finishBoxes = JSON.parse(xmlHttp.responseText).finishBoxes;
         coords = JSON.parse(xmlHttp.responseText).coords
         //displaying an img that was received and sent back by the server
@@ -84,8 +85,8 @@ function extractFrames() {
 
           let widthCoeff = 426/imgWidth
           let heightCoeff = 230/imgHeight
-          for (let i = 0 ; i < vehicles.length; i++){
-            let vehicle = vehicles[i];
+          for (let i = 0 ; i < startBoxes.length; i++){
+            let vehicle = startBoxes[i];
 
             ctxUpload.beginPath();
             ctxUpload.lineWidth = "3";
@@ -203,7 +204,7 @@ function videoCalculationClick() {
 
   selectAreaImage.crossOrigin='anonymous';
   selectAreaImage.onload=start;
-  selectAreaImage.src = "data:image/jpeg;base64,"+arraybase[arraybase.length-1];
+  selectAreaImage.src = "data:image/jpeg;base64,"+arraybase[0];
 }
 
 
@@ -259,8 +260,8 @@ function draw(){
 }
 
 function capture(){
-   //console.log('startX = ' + startX + ' startY = ' + startY)
-   //console.log('mouseX = ' + mouseX + ' mouseY = ' + mouseY)
+   console.log('startX = ' + startX + ' startY = ' + startY)
+   console.log('mouseX = ' + mouseX + ' mouseY = ' + mouseY)
 }
 
 function handleMouseDown(e){
@@ -329,21 +330,10 @@ function submitResult() {
   dataArr.push({"name" : "area-rect", "value" : [startX,startY,mouseX,mouseY]});
   let roadDistance = Math.sqrt((mouseX-startX)**2+(mouseY-startY)**2) 
   let roadMetres = dataArr[0].value;
+  let speedLimit = dataArr[1].value;
+  let speedArr = [];
   //console.log(JSON.stringify(dataArr));
   
-  //ctxUpload.drawImage(image, 0, 0, imgWidth, imgHeight);
-  ctx.drawImage(selectAreaImage,0,0,canvasArea.width,canvasArea.height);
-  let widthCoeff = 640/imgWidth
-  let heightCoeff = 360/imgHeight
-     for (let i = 0 ; i < finishBoxes.length; i++){
-      let vehicle = finishBoxes[i];
-      ctx.beginPath();
-      ctx.lineWidth = "3";
-      ctx.strokeStyle = "red";
-      ctx.rect(vehicle[0]*widthCoeff, vehicle[1]*heightCoeff, vehicle[2]*widthCoeff, vehicle[3]*heightCoeff);
-      ctx.stroke();
-      }
-      
    //calculation speed
    let time = arraytiming[arraytiming.length-1]-arraytiming[0]
    for (let coord of coords) {
@@ -355,9 +345,42 @@ function submitResult() {
       let distanceMeters = vehicleDistance/roadDistance*roadMetres;
       let speedMS = distanceMeters/time;
       let speedKH = speedMS*3.6
-      console.log(speedKH)
+      speedArr.push(speedKH);
    }
   
+  
+  //ctxUpload.drawImage(image, 0, 0, imgWidth, imgHeight);
+  ctx.drawImage(selectAreaImage,0,0,canvasArea.width,canvasArea.height);
+  
+  ctx.beginPath();
+  ctx.lineWidth = "3";
+  ctx.strokeStyle = "red";    
+  ctx.moveTo(startX,startY);    
+  ctx.lineTo(mouseX,mouseY);  
+  ctx.stroke();
+  
+  let widthCoeff = 640/imgWidth
+  let heightCoeff = 360/imgHeight
+     for (let i = 0 ; i < startBoxes.length; i++){
+      let vehicle = startBoxes[i];
+      let vehicleSpeed = speedArr[i];
+      let color = 'red';
+      if (vehicleSpeed < 5) {
+         continue;
+      } else if (vehicleSpeed + 10 <= speedLimit) {
+         color = 'green'
+      } else if (vehicleSpeed <= speedLimit) {
+         color = 'yellow'
+      }
+      
+      
+      ctx.beginPath();
+      ctx.lineWidth = "3";
+      ctx.strokeStyle = color;
+      ctx.rect(vehicle[0]*widthCoeff, vehicle[1]*heightCoeff, vehicle[2]*widthCoeff, vehicle[3]*heightCoeff);
+      ctx.stroke();
+      }
+        
 
 }
 

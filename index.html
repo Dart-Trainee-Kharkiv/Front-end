@@ -80,7 +80,7 @@
              <!--<source src="URL">-->
         </video>
       </div>
-      <canvas height="360" id="calculation-canvas" class="canvas-translation calculation-element">
+      <canvas height=360 width=640 id="calculation-canvas" class=" calculation-element">
       </canvas>
    
      	<div class="buttons upload-element">
@@ -89,9 +89,9 @@
          <input id="inputvideo" type="file" accept="video/*" hidden/> 
      	</div>
 
-      <div class="warning_message ">
+      <div class="warning_message calculation-element">
         <div class="warning-red">
-           <img src="img/warning_sign.svg" class="calculation-element">
+           <img src="img/warning_sign.svg">
             <div class="warning_mess calculation-element" >On this segment of the road, the car exceeded speed
             </div>
         </div>
@@ -119,11 +119,11 @@
         On this segment of the road the car reg.<span class="car-namber">#AA 2345</span> is selected and its speed will be calculated.
       </div>
 
-      <div class="container-input" >
+      <div class="container-input calculation-element" >
           <div class="your-data calculation-element">Your data</div>
           <div class="your-data-form calculation-element" >
               <form class="result-form" id ="result-form">
-                <div class="result">Distance, km</div>
+                <div class="result">Distance, m</div>
                   <input type="number" step="0.01" min="0" name="distance" value="" placeholder="">
                 <div class="result">Limit, km/h</div>
                   <input type="number" name="speed-limit" value="" placeholder="">
