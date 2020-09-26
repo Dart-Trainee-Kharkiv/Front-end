@@ -24,9 +24,9 @@
     </div>
     <div class="main-header" >
         <div class="speed-check">Speed calculation</div>
-        <div class="user-profile">
+        <div class="user-profile" hidden>
            	<img src="img/user.svg" class="user-block-ava" alt="ava">
-           	<div class="user-block">
+           	<div class="user-block" >
               <div class="user-block-name">Mark</div> 
               <div class="user-block-role">Administrator</div>  
             </div>            
@@ -39,18 +39,18 @@
        	<nav class="main-navigation">
      	    <ul>
      	  	  <li>
-              <a href="#">
+              <a href="#" onclick="window.location.href = 'comingSoon.html';">
               <img src="img/calculation.svg" alt="calculation">Calculation</a>	
      	    	</li>
             <li>
-            	<a href="#">
+            	<a href="#" onclick="window.location.href = 'comingSoon.html';">
                <img src="img/help.svg" alt="help">Help</a>
             </li>
             <li>
-            	<a href="#">
+            	<a href="#" onclick="window.location.href = 'comingSoon.html';">
                 <img src="img/english.svg" alt="english">English</a>
             </li>
-            <li>
+            <li hidden>
             	<a href="#">
                 <img src="img/logout.svg" alt="sing out">Sing out</a>
             </li>
@@ -65,17 +65,12 @@
      	  	<div class="container-video-selected container-video-upload" id="container-video-upload">Upload video</div>
      	  	<div class="container-video-calculation" id="container-video-calculation" >Calculation</div>
        </div>
-       <div class="select calculation-element">
+       <div class="select" hidden>
         <img src="img/btn-select.svg" class="btn-select calculation-element" id = "btn-select-id">
        </div>
 
       <div class="video-translation windows upload-element" >
-<!--      		<iframe 
-          id = "framevideo"
-		  srcdoc="<a href=https://www.youtube.com/embed/Y8Wp3dafaMQ>vidos</a>" 
-		  frameborder="0" 
-		  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-		  allowfullscreen>Ваш браузер не поддерживает фреймы.</iframe> -->
+
         <video width="100%" height="100%" id="loaded-video">
              <!--<source src="URL">-->
         </video>
@@ -85,8 +80,8 @@
    
      	<div class="buttons upload-element">
      		 <button class="btn" id='button-add-video'>ADD VIDEO</button>
-         <button class="btn right" hidden/>ADD LINK</button>
-         <input id="inputvideo" type="file" accept="video/*" hidden/> 
+         <button class="btn right" hidden>ADD LINK</button>
+         <input id="inputvideo" type="file" accept="video/*" hidden> 
      	</div>
 
       <div class="warning_message calculation-element">
@@ -100,7 +95,7 @@
             <div class="warning_mess calculation-element">Сar’s speed is equal to the limit
             </div>
         </div>
-        <div class="warnind-green">
+        <div class="warning-green">
            <img src="img/warning_sign_green.svg" class="calculation-element">
             <div class="warning_mess calculation-element">Сar’s speed does not exceed the limit
             </div>
@@ -113,10 +108,9 @@
       <div class="video-result upload-element" >
         <canvas id="test_canvas" width="400" height="240"></canvas>
       </div>
-      
-      <div class="result-discribe upload-element" >
-         <p id="progress"></p>
-        On this segment of the road the car reg.<span class="car-namber">#AA 2345</span> is selected and its speed will be calculated.
+      <p class="upload-element" id="progress"></p>
+      <div class="result-discribe" hidden>
+        On this segment of the road the cars were selected and their speed will be calculated.
       </div>
 
       <div class="container-input calculation-element" >

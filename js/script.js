@@ -16,8 +16,6 @@ document.addEventListener("DOMContentLoaded", ready);
   let imgWidth = 0;
   let imgHeight = 0;
 function extractFrames() {
-  //var video = document.createElement('video');
-  //document.body.appendChild(video)
   
   var video = document.getElementById("loaded-video")
   var array = [];
@@ -71,16 +69,21 @@ function extractFrames() {
     xmlHttp.onreadystatechange = function () {
       if (xmlHttp.readyState === 4 && xmlHttp.status === 201) {
          
+         
+        //get bounding boxes from first frame
         startBoxes = JSON.parse(xmlHttp.responseText).startBoxes;
+        //get bounding boxes from last frame
         finishBoxes = JSON.parse(xmlHttp.responseText).finishBoxes;
+        //get coordinates of start point and finish point of bounding box
         coords = JSON.parse(xmlHttp.responseText).coords
-        //displaying an img that was received and sent back by the server
-        //again, not ideal, might not be JPEG
+        
+        //displaying rectangles on first frame
         var image = new Image();
         image.onload = function() {
+          //add message 
+          $( ".result-discribe" ).css( "display", "block" );
           imgWidth = this.width;
           imgHeight = this.height;
-          //ctxUpload.drawImage(image, 0, 0, imgWidth, imgHeight);
           ctxUpload.drawImage(image, 0, 0, 426, 230);
 
           let widthCoeff = 426/imgWidth
@@ -98,15 +101,13 @@ function extractFrames() {
         image.src = "data:image/jpeg;base64,"+data[0];
       }
   };
-        //jsonify and convert to base64    
+    //jsonify     
     jsonToSend = JSON.stringify({ 'frames': data,})
     xmlHttp.send( jsonToSend );
-   // return xmlHttp.responseText;
 }
 
   function onend(e) { 
     var img;
-    //console.log(arraytiming)
     var canvas=document.getElementById("calculation-canvas");
     var ctx=canvas.getContext("2d");
     var cw=canvas.width;
@@ -117,15 +118,12 @@ function extractFrames() {
     // refresh canvas by redrawing the paused video frame onto the canvas
     ctx.drawImage(image,0,0,cw,ch);
    
-   
     httpPostTracking(arraybase);
-    //httpPost(arraybase[0]);
     
     for (var i = 0; i < array.length; i++) {
       img = new Image();
       img.onload = revokeURL;
       img.src = URL.createObjectURL(array[i]);
-      //document.body.appendChild(img);
     }
     // we don't need the video's objectURL anymore
     URL.revokeObjectURL(this.src);
@@ -134,11 +132,10 @@ function extractFrames() {
   video.muted = true;
 
   video.addEventListener('loadedmetadata', initCanvas, false);
-  //video.addEventListener('timeupdate', drawFrame, false);
-  //video.addEventListener('ended', onend, false);
 
   video.src = URL.createObjectURL(this.files[0]);
   
+  //function that check time with framerate
    function checkTime() {
       if(video.currentTime > 0 && array.length <= Math.floor(video.currentTime/framerate)) {
       video.pause();
@@ -149,7 +146,7 @@ function extractFrames() {
         video.pause();
         onend();
      } else {
-         /* call checkTime every 1/30th 
+         /* call checkTime every 1/framerate  
          second until endTime */
           setTimeout(checkTime, 1000/(1/framerate));
    }
@@ -199,6 +196,7 @@ function videoCalculationClick() {
   for (let i = 0; i < uploadElements.length; i++) {
       uploadElements[i].style.display = "none";
   }
+  $( ".result-discribe" ).css( "display", "none" );
   
   //add image on calculation tab
 
@@ -233,7 +231,6 @@ window.onresize=function(e){ reOffset(); }
 var isDown=false;
 var startX,startY,mouseX,mouseY;
 
-//document.getElementById('btn-select-id').addEventListener('click', start);
 
 function start(){
   reOffset();
@@ -253,7 +250,6 @@ function draw(){
     ctx.beginPath();
     ctx.lineWidth = "3";
     ctx.strokeStyle = "red";    
-    //ctx.rect(startX,startY,mouseX-startX,mouseY-startY);
     ctx.moveTo(startX,startY);    
     ctx.lineTo(mouseX,mouseY);  
     ctx.stroke();
@@ -316,14 +312,12 @@ function handleMouseMove(e){
 
 
 
-//  let finishBoxes = [];
- // let coords = [];
-
-
 
 //submit calculation form
 var resultForm = document.getElementById('result-form')
 resultForm.addEventListener('submit', submitResult);
+
+let maxColor = 'green'
 
 function submitResult() {
   var dataArr = $("#result-form").serializeArray() ;
@@ -332,7 +326,6 @@ function submitResult() {
   let roadMetres = dataArr[0].value;
   let speedLimit = dataArr[1].value;
   let speedArr = [];
-  //console.log(JSON.stringify(dataArr));
   
    //calculation speed
    let time = arraytiming[arraytiming.length-1]-arraytiming[0]
@@ -349,7 +342,6 @@ function submitResult() {
    }
   
   
-  //ctxUpload.drawImage(image, 0, 0, imgWidth, imgHeight);
   ctx.drawImage(selectAreaImage,0,0,canvasArea.width,canvasArea.height);
   
   ctx.beginPath();
@@ -359,6 +351,11 @@ function submitResult() {
   ctx.lineTo(mouseX,mouseY);  
   ctx.stroke();
   
+  //hide warning message
+   $( `.warning-${maxColor}` ).css( "display", "none" );
+   maxColor = 'green'
+  
+  //select color depending on speed
   let widthCoeff = 640/imgWidth
   let heightCoeff = 360/imgHeight
      for (let i = 0 ; i < startBoxes.length; i++){
@@ -373,15 +370,19 @@ function submitResult() {
          color = 'yellow'
       }
       
+      //select message color
+      if ((maxColor == 'yellow' || maxColor == 'green') && color == 'red') maxColor = "red";
+      if ((maxColor == 'green' || maxColor != 'red') && color == 'yellow') maxColor = "yellow";
       
+      //draw rectangle
       ctx.beginPath();
       ctx.lineWidth = "3";
       ctx.strokeStyle = color;
       ctx.rect(vehicle[0]*widthCoeff, vehicle[1]*heightCoeff, vehicle[2]*widthCoeff, vehicle[3]*heightCoeff);
       ctx.stroke();
       }
-        
-
+   //show warning message     
+   $( `.warning-${maxColor}` ).css( "display", "block" );
 }
 
 }

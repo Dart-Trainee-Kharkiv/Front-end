@@ -320,7 +320,7 @@ html,body {
 	height: 24px;
 }
 
-.warnind-green {
+.warning-green {
 	display: flex;
 	display: none;
     flex-direction: row;
