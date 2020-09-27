@@ -1,13 +1,7 @@
 document.addEventListener("DOMContentLoaded", ready);
 
   function ready() {
-     document.getElementById('button-add-video').addEventListener('click', loadVideo);
-     document.getElementById('inputvideo').addEventListener('change', extractFrames, false);
-
-      function loadVideo() {
-         document.getElementById('inputvideo').click();
-      }
-
+     
   var arraybase = [];
   let finishBoxes = [];
   let startBoxes = [];
@@ -15,6 +9,24 @@ document.addEventListener("DOMContentLoaded", ready);
   var arraytiming = [];
   let imgWidth = 0;
   let imgHeight = 0;
+
+     document.getElementById('inputvideo').addEventListener('input', extractFrames, false);
+     document.getElementById('button-add-video').addEventListener('click', loadVideo);
+     
+      function loadVideo() {
+         $('#test_canvas').width+=0;
+         $('#loaded-video').width+=0;
+         $( ".result-discribe" ).css( "display", "none" );
+         arraybase = [];
+         finishBoxes = [];
+         startBoxes = [];
+         coords = [];
+         arraytiming = [];
+         imgWidth = 0;
+         imgHeight = 0;
+         document.getElementById('inputvideo').click();
+      }
+
 function extractFrames() {
   
   var video = document.getElementById("loaded-video")
@@ -26,6 +38,7 @@ function extractFrames() {
   const ctxUpload = canv.getContext("2d");
   
   var pro = document.querySelector('#progress');
+  pro.innerHTML = '0';
   var framerate = 1/30;
 
   function initCanvas(e) {
