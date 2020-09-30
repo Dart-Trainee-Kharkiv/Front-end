@@ -1,10 +1,11 @@
 html,body {
 	width: 100%;
+   height: 100%;
 	background-color: #E5E5E5;
 	font-style: normal;
     font-weight: normal;
     font-family: "SF Pro Display", "PT Serif Caption", sans-serif;
-    color: #000000;
+    color: #3639A4;
 }
 
 .header {

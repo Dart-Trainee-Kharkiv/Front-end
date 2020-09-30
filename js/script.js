@@ -269,8 +269,8 @@ function draw(){
 }
 
 function capture(){
-   console.log('startX = ' + startX + ' startY = ' + startY)
-   console.log('mouseX = ' + mouseX + ' mouseY = ' + mouseY)
+   //console.log('startX = ' + startX + ' startY = ' + startY)
+  // console.log('mouseX = ' + mouseX + ' mouseY = ' + mouseY)
 }
 
 function handleMouseDown(e){
@@ -391,6 +391,10 @@ function submitResult() {
       ctx.beginPath();
       ctx.lineWidth = "3";
       ctx.strokeStyle = color;
+      //write speed
+      ctx.font = "12pt Arial";
+      ctx.fillStyle = color;
+      ctx.fillText(Math.floor(vehicleSpeed), vehicle[0]*widthCoeff, vehicle[1]*heightCoeff-6);
       ctx.rect(vehicle[0]*widthCoeff, vehicle[1]*heightCoeff, vehicle[2]*widthCoeff, vehicle[3]*heightCoeff);
       ctx.stroke();
       }
