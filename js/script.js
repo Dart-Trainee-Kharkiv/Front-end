@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", ready);
   var arraytiming = [];
   let imgWidth = 0;
   let imgHeight = 0;
+  let pointX;
+  let pointY;
 
      document.getElementById('inputvideo').addEventListener('input', extractFrames, false);
      document.getElementById('button-add-video').addEventListener('click', loadVideo);
@@ -30,11 +32,40 @@ document.addEventListener("DOMContentLoaded", ready);
 function extractFrames() {
   
   var video = document.getElementById("loaded-video")
+  imgWidth = video.width;
+  imgHeight = video.height;
   var array = [];
   var canvas = document.createElement('canvas');
   var ctx = canvas.getContext('2d');
   
   const canv = document.getElementById('test_canvas');
+  //save point
+  canv.addEventListener('click', (function(e){handleMouseClick(e);}));
+  
+  let offsetX;
+  let offsetY;
+  
+  function reOffset(){
+  var BB=canv.getBoundingClientRect();
+  offsetX=BB.left;
+  offsetY=BB.top;        
+}
+  
+  function handleMouseClick(e){
+  reOffset()
+  
+  pointX=parseInt(e.clientX-offsetX);
+  pointY=parseInt(e.clientY-offsetY);
+  
+  ctxUpload.beginPath();
+  ctxUpload.lineWidth = "3";
+  ctxUpload.strokeStyle = "red";
+  ctxUpload.rect(pointX,pointY,1,1);
+
+  ctxUpload.stroke();
+  
+}
+  
   const ctxUpload = canv.getContext("2d");
   
   var pro = document.querySelector('#progress');
@@ -72,8 +103,10 @@ function extractFrames() {
   }
   
   
-  function httpPostTracking(data, theUrl='http://127.0.0.1:5000/')
+  function httpPostTracking(data, pointX, pointY, theUrl='http://127.0.0.1:5000/')
 {
+   let widthCoeff = 426/imgWidth;
+   let heightCoeff = 230/imgHeight;
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( 'POST', theUrl + '/tracking', true ); // true for asynchronous request
     xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
@@ -92,15 +125,17 @@ function extractFrames() {
         
         //displaying rectangles on first frame
         var image = new Image();
+
         image.onload = function() {
           //add message 
           $( ".result-discribe" ).css( "display", "block" );
+          
           imgWidth = this.width;
           imgHeight = this.height;
           ctxUpload.drawImage(image, 0, 0, 426, 230);
 
-          let widthCoeff = 426/imgWidth
-          let heightCoeff = 230/imgHeight
+          widthCoeff = 426/imgWidth
+          heightCoeff = 230/imgHeight
           for (let i = 0 ; i < startBoxes.length; i++){
             let vehicle = startBoxes[i];
 
@@ -114,8 +149,52 @@ function extractFrames() {
         image.src = "data:image/jpeg;base64,"+data[0];
       }
   };
+    //jsonify 
+    console.log(pointX/widthCoeff,pointY/heightCoeff)    
+    jsonToSend = JSON.stringify({ 'frames': data, 'point': [pointX/widthCoeff,pointY/heightCoeff]})
+    xmlHttp.send(jsonToSend);
+}
+
+  function httpPostImg(data, theUrl='http://127.0.0.1:5000/')
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( 'POST', theUrl + '/img', true ); // true for asynchronous request
+    xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+    
+    //function that will be triggered once the request will be filled
+    xmlHttp.onreadystatechange = function () {
+      if (xmlHttp.readyState === 4 && xmlHttp.status === 201) {
+         
+         
+        //get bounding boxes from first frame
+        boxes = JSON.parse(xmlHttp.responseText).vehicles;
+        
+        //displaying rectangles on first frame
+        var image = new Image();
+        image.onload = function() {
+          //add message 
+          $( ".result-discribe" ).css( "display", "block" );
+          imgWidth = this.width;
+          imgHeight = this.height;
+          ctxUpload.drawImage(image, 0, 0, 426, 230);
+
+          let widthCoeff = 426/imgWidth
+          let heightCoeff = 230/imgHeight
+          for (let i = 0 ; i < boxes.length; i++){
+            let vehicle = boxes[i];
+
+            ctxUpload.beginPath();
+            ctxUpload.lineWidth = "3";
+            ctxUpload.strokeStyle = "red";
+            ctxUpload.rect(vehicle[0]*widthCoeff, vehicle[1]*heightCoeff, vehicle[2]*widthCoeff, vehicle[3]*heightCoeff);
+            ctxUpload.stroke();
+          }
+        };
+        image.src = "data:image/jpeg;base64,"+data;
+      }
+  };
     //jsonify     
-    jsonToSend = JSON.stringify({ 'frames': data,})
+    jsonToSend = JSON.stringify({ 'frame': data,});
     xmlHttp.send( jsonToSend );
 }
 
@@ -125,22 +204,31 @@ function extractFrames() {
     var ctx=canvas.getContext("2d");
     var cw=canvas.width;
     var ch=canvas.height;
+    
     //add image on calculation tab
     var image = new Image();
     image.src = "data:image/jpeg;base64,"+arraybase[arraybase.length-1];
+    
     // refresh canvas by redrawing the paused video frame onto the canvas
     ctx.drawImage(image,0,0,cw,ch);
    
-    httpPostTracking(arraybase);
+    httpPostImg(arraybase[0]);
     
-    for (var i = 0; i < array.length; i++) {
+    $("#select-vehicle").on('click', sendVideo);
+
+    function sendVideo() {
+      httpPostTracking(arraybase,pointX,pointY);
+    }
+   
+    
+/*     for (var i = 0; i < array.length; i++) {
       img = new Image();
       img.onload = revokeURL;
       img.src = URL.createObjectURL(array[i]);
     }
     // we don't need the video's objectURL anymore
-    URL.revokeObjectURL(this.src);
-  }
+    URL.revokeObjectURL(this.src);*/
+  } 
   
   video.muted = true;
 
@@ -374,6 +462,7 @@ function submitResult() {
      for (let i = 0 ; i < startBoxes.length; i++){
       let vehicle = startBoxes[i];
       let vehicleSpeed = speedArr[i];
+      if (isNaN(vehicleSpeed)) continue;
       let color = 'red';
       if (vehicleSpeed < 5) {
          continue;
