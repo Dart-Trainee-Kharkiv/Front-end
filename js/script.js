@@ -149,8 +149,7 @@ function extractFrames() {
         image.src = "data:image/jpeg;base64,"+data[0];
       }
   };
-    //jsonify 
-    console.log(pointX/widthCoeff,pointY/heightCoeff)    
+    //jsonify  
     jsonToSend = JSON.stringify({ 'frames': data, 'point': [pointX/widthCoeff,pointY/heightCoeff]})
     xmlHttp.send(jsonToSend);
 }
@@ -357,8 +356,8 @@ function draw(){
 }
 
 function capture(){
-   //console.log('startX = ' + startX + ' startY = ' + startY)
-  // console.log('mouseX = ' + mouseX + ' mouseY = ' + mouseY)
+   console.log('startX = ' + startX + ' startY = ' + startY)
+   console.log('mouseX = ' + mouseX + ' mouseY = ' + mouseY)
 }
 
 function handleMouseDown(e){
@@ -428,17 +427,21 @@ function submitResult() {
   let speedLimit = dataArr[1].value;
   let speedArr = [];
   
+  let widthCoeff = 640/imgWidth
+  let heightCoeff = 360/imgHeight
+  
    //calculation speed
    let time = arraytiming[arraytiming.length-1]-arraytiming[0]
    for (let coord of coords) {
-      let startX = coord[0]
-      let startY = coord[1]
-      let finishX = coord[2]
-      let finishY = coord[3]
+      let startX = coord[0]*widthCoeff
+      let startY = coord[1]*heightCoeff
+      let finishX = coord[2]*widthCoeff
+      let finishY = coord[3]*heightCoeff
       let vehicleDistance = Math.sqrt((finishX-startX)**2+(finishY-startY)**2)
       let distanceMeters = vehicleDistance/roadDistance*roadMetres;
       let speedMS = distanceMeters/time;
       let speedKH = speedMS*3.6
+      console.log("startX = " + startX +" startY = " + startY + " finishX = " + finishX + " finishY = " + finishY + " vehicleDistance = " + vehicleDistance + " time = " + time )
       speedArr.push(speedKH);
    }
   
@@ -457,8 +460,6 @@ function submitResult() {
    maxColor = 'green'
   
   //select color depending on speed
-  let widthCoeff = 640/imgWidth
-  let heightCoeff = 360/imgHeight
      for (let i = 0 ; i < startBoxes.length; i++){
       let vehicle = startBoxes[i];
       let vehicleSpeed = speedArr[i];
