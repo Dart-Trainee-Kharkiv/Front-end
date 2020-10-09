@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", ready);
   let pointX;
   let pointY;
 
-     document.getElementById('inputvideo').addEventListener('input', extractFrames, false);
+     document.getElementById('inputvideo').addEventListener('change', extractFrames, false);
      document.getElementById('button-add-video').addEventListener('click', loadVideo);
      
       function loadVideo() {
@@ -27,10 +27,19 @@ document.addEventListener("DOMContentLoaded", ready);
          imgWidth = 0;
          imgHeight = 0;
          document.getElementById('inputvideo').click();
+         
+         $('#test_canvas')[0].getContext('2d').clearRect(0, 0, $('#test_canvas')[0].width, $('#test_canvas')[0].height);
+  
+         //$('#loaded-video').on('loadedmetadata', extractFrames, false);
+/*          $('#inputvideo').on('change', () => {
+           //$('#loaded-video').src =  URL.createObjectURL($('#inputvideo')[0].files[0]);
+           console.log($('#inputvideo')[0].files[0]);
+           extractFrames();
+         }); */
       }
 
 function extractFrames() {
-  
+  //console.log('ex')
   var video = document.getElementById("loaded-video")
   imgWidth = video.width;
   imgHeight = video.height;
@@ -218,7 +227,7 @@ function extractFrames() {
     function sendVideo() {
       httpPostTracking(arraybase,pointX,pointY);
     }
-   
+       
     
 /*     for (var i = 0; i < array.length; i++) {
       img = new Image();
@@ -230,10 +239,10 @@ function extractFrames() {
   } 
   
   video.muted = true;
-
+  
   video.addEventListener('loadedmetadata', initCanvas, false);
 
-  video.src = URL.createObjectURL(this.files[0]);
+  video.src = URL.createObjectURL($('#inputvideo')[0].files[0]);
   
   //function that check time with framerate
    function checkTime() {
@@ -356,8 +365,8 @@ function draw(){
 }
 
 function capture(){
-   console.log('startX = ' + startX + ' startY = ' + startY)
-   console.log('mouseX = ' + mouseX + ' mouseY = ' + mouseY)
+   //console.log('startX = ' + startX + ' startY = ' + startY)
+  // console.log('mouseX = ' + mouseX + ' mouseY = ' + mouseY)
 }
 
 function handleMouseDown(e){
@@ -441,7 +450,7 @@ function submitResult() {
       let distanceMeters = vehicleDistance/roadDistance*roadMetres;
       let speedMS = distanceMeters/time;
       let speedKH = speedMS*3.6
-      console.log("startX = " + startX +" startY = " + startY + " finishX = " + finishX + " finishY = " + finishY + " vehicleDistance = " + vehicleDistance + " time = " + time )
+     // console.log("startX = " + startX +" startY = " + startY + " finishX = " + finishX + " finishY = " + finishY + " vehicleDistance = " + vehicleDistance + " time = " + time )
       speedArr.push(speedKH);
    }
   
