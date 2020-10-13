@@ -28,6 +28,8 @@ document.addEventListener("DOMContentLoaded", ready);
          imgHeight = 0;
          document.getElementById('inputvideo').click();
          
+         $("#select-vehicle")[0].style.visibility = "hidden";
+         
          $('#test_canvas')[0].getContext('2d').clearRect(0, 0, $('#test_canvas')[0].width, $('#test_canvas')[0].height);
   
          //$('#loaded-video').on('loadedmetadata', extractFrames, false);
@@ -84,6 +86,7 @@ function extractFrames() {
   function initCanvas(e) {
     canvas.width = this.videoWidth;
     canvas.height = this.videoHeight;
+    $('#inputvideo')[0].value = "";
     start()
   }
 
@@ -97,6 +100,9 @@ function extractFrames() {
     canvas.toBlob(saveFrame, 'image/jpeg');
     var dataURL = canvas.toDataURL("image/jpeg");
     arraybase.push(dataURL.replace(/^data:image\/(png|jpeg);base64,/, ""));
+    if(arraybase.length == 1) {
+      httpPostImg(arraybase[0]);  
+    }
     arraytiming.push(video.currentTime);
     pro.innerHTML = ((video.currentTime / video.duration) * 100).toFixed(2) + ' %';  
   }
@@ -220,11 +226,12 @@ function extractFrames() {
     // refresh canvas by redrawing the paused video frame onto the canvas
     ctx.drawImage(image,0,0,cw,ch);
    
-    httpPostImg(arraybase[0]);
-    
+    //httpPostImg(arraybase[0]);
+    $("#select-vehicle")[0].style.visibility = "visible";
     $("#select-vehicle").on('click', sendVideo);
 
     function sendVideo() {
+       console.log("click");
       httpPostTracking(arraybase,pointX,pointY);
     }
        
