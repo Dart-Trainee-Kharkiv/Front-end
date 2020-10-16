@@ -106,14 +106,25 @@
 
     <div class="container-result">
     <p class="calculation-element">Please select road section</p>
+    
       <div class="video-result upload-element" >
       <p class="upload-element">Please select vehicle</p>
-        <canvas id="test_canvas" width="400" height="240"></canvas>
+        <canvas id="test_canvas" width="400" height="240">
+        </canvas>        
+        
+        <form>
+        <input type="number" id="select_car_x">
+        <input type="number" id="select_car_y">
+        <button id="select_car_coords">S</button>
+        </form>
+       
       </div>
+      
       <p class="upload-element" id="progress"></p>
+      
       <div class="result-discribe" hidden>
-       <div><button class="btn" id="select-vehicle">Select vehicle</button></div>
-        <p hidden>On this segment of the road the cars were selected and their speed will be calculated.</p>
+        <p id="p_selected" hidden class="container-video-selected">Car was selected.</p>
+        <div><button class="btn" id="select-vehicle">Select vehicle</button></div>
       </div>
 
       <div class="container-input calculation-element" >

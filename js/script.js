@@ -30,14 +30,11 @@ document.addEventListener("DOMContentLoaded", ready);
          
          $("#select-vehicle")[0].style.visibility = "hidden";
          
-         $('#test_canvas')[0].getContext('2d').clearRect(0, 0, $('#test_canvas')[0].width, $('#test_canvas')[0].height);
-  
-         //$('#loaded-video').on('loadedmetadata', extractFrames, false);
-/*          $('#inputvideo').on('change', () => {
-           //$('#loaded-video').src =  URL.createObjectURL($('#inputvideo')[0].files[0]);
-           console.log($('#inputvideo')[0].files[0]);
-           extractFrames();
-         }); */
+         $('#test_canvas')[0]
+                           .getContext('2d')
+                           .clearRect(0, 0, 
+                                      $('#test_canvas')[0].width, 
+                                      $('#test_canvas')[0].height);
       }
 
 function extractFrames() {
@@ -57,25 +54,37 @@ function extractFrames() {
   let offsetY;
   
   function reOffset(){
-  var BB=canv.getBoundingClientRect();
-  offsetX=BB.left;
-  offsetY=BB.top;        
-}
+    var BB=canv.getBoundingClientRect();
+    offsetX=BB.left;
+    offsetY=BB.top;        
+  }
   
   function handleMouseClick(e){
-  reOffset()
+    reOffset()
   
-  pointX=parseInt(e.clientX-offsetX);
-  pointY=parseInt(e.clientY-offsetY);
+    pointX=parseInt(e.clientX-offsetX);
+    pointY=parseInt(e.clientY-offsetY);
   
-  ctxUpload.beginPath();
-  ctxUpload.lineWidth = "3";
-  ctxUpload.strokeStyle = "red";
-  ctxUpload.rect(pointX,pointY,1,1);
+    ctxUpload.beginPath();
+    ctxUpload.lineWidth = "3";
+    ctxUpload.strokeStyle = "red";
+    ctxUpload.rect(pointX,pointY,1,1);
 
-  ctxUpload.stroke();
-  
+    ctxUpload.stroke();
 }
+
+  //for testing purpose
+  $("#select_car_coords").on('click', setPoint)
+    
+   function setPoint() {
+      pointX=$("#select_car_x").val();
+      pointY=$("#select_car_y").val();
+      ctxUpload.beginPath();
+      ctxUpload.lineWidth = "3";
+      ctxUpload.strokeStyle = "red";
+      ctxUpload.rect(pointX,pointY,1,1);
+      ctxUpload.stroke();
+   }
   
   const ctxUpload = canv.getContext("2d");
   
@@ -129,7 +138,7 @@ function extractFrames() {
     //function that will be triggered once the request will be filled
     xmlHttp.onreadystatechange = function () {
       if (xmlHttp.readyState === 4 && xmlHttp.status === 201) {
-         
+         $("#p_selected").css( "display", "block" );
          
         //get bounding boxes from first frame
         startBoxes = JSON.parse(xmlHttp.responseText).startBoxes;
@@ -169,6 +178,8 @@ function extractFrames() {
     xmlHttp.send(jsonToSend);
 }
 
+
+
   function httpPostImg(data, theUrl='http://127.0.0.1:5000/')
 {
     var xmlHttp = new XMLHttpRequest();
@@ -178,7 +189,8 @@ function extractFrames() {
     //function that will be triggered once the request will be filled
     xmlHttp.onreadystatechange = function () {
       if (xmlHttp.readyState === 4 && xmlHttp.status === 201) {
-         
+         //
+         $( ".result-discribe" ).css( "display", "block" );
          
         //get bounding boxes from first frame
         boxes = JSON.parse(xmlHttp.responseText).vehicles;
@@ -186,8 +198,6 @@ function extractFrames() {
         //displaying rectangles on first frame
         var image = new Image();
         image.onload = function() {
-          //add message 
-          $( ".result-discribe" ).css( "display", "block" );
           imgWidth = this.width;
           imgHeight = this.height;
           ctxUpload.drawImage(image, 0, 0, 426, 230);
@@ -197,11 +207,13 @@ function extractFrames() {
           for (let i = 0 ; i < boxes.length; i++){
             let vehicle = boxes[i];
 
+            //draw rectangles
             ctxUpload.beginPath();
             ctxUpload.lineWidth = "3";
             ctxUpload.strokeStyle = "red";
             ctxUpload.rect(vehicle[0]*widthCoeff, vehicle[1]*heightCoeff, vehicle[2]*widthCoeff, vehicle[3]*heightCoeff);
             ctxUpload.stroke();
+            
           }
         };
         image.src = "data:image/jpeg;base64,"+data;

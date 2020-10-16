@@ -7,7 +7,9 @@ html,body {
     font-family: "SF Pro Display", "PT Serif Caption", sans-serif;
     color: #3639A4;
 }
-
+area {
+   border: 5px #f00 solid;
+}
 .header {
 	display: flex;
 	flex-direction: row;
