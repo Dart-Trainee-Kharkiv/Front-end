@@ -413,3 +413,11 @@ area {
 .calculation-element {
    display:none;
 }
+
+.test_element  {
+   width: 1px !important;
+   height: 1px !important;
+   background-color: #E5E5E5;
+   border-width:0px !important;
+   border:none !important;
+}

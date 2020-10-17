@@ -18,12 +18,18 @@ ${RESULT DISCRIBE}  css=[class='result-discribe']
 ${SELECT VEHICLE}   id:select-vehicle
 ${SUBMIT BUTTTON}   css=[class="btn submit"]
 ${WARNING RED}      css=[class="warning-red"]
-${WARNING GREEN}      css=[class="warning-green"]
+${WARNING GREEN}    css=[class="warning-green"]
+${WARNING YELLOW}   css=[class="warning-yellow"]
 ${COORD CAR X}      id:select_car_x
 ${COORD CAR Y}      id:select_car_y
 ${SELECT COORDS}    id:select_car_coords
 ${SELECT TEXT}      id:p_selected
 ${PROGRESS TEXT}    id:progress
+${COORD ROAD S X}   start_road_x
+${COORD ROAD S Y}   start_road_y
+${COORD ROAD F X}   end_road_x
+${COORD ROAD F Y}   end_road_y
+${SELECT ROAD}      select_road_coords
 
 ${EMPTY}
 
@@ -57,7 +63,7 @@ User upload video
 
 Send button appeared
    Wait Until Element Is Visible   ${SELECT VEHICLE}    15
-   Wait Until Element Contains     ${PROGRESS TEXT}   100   15
+   Wait Until Element Contains     ${PROGRESS TEXT}   100   20
 
 User Click Submit Button
    Click Element     ${SUBMIT BUTTTON}
@@ -68,12 +74,35 @@ Red message appeared
 Green message appeared
    Element Should Be Visible     ${WARNING GREEN}
 
+Yellow message appeared
+   Element Should Be Visible     ${WARNING YELLOW}
+
 User choose vehicle
    Input Text   ${COORD CAR X}   182
    Input Text   ${COORD CAR Y}   89
    Click Element     ${SELECT COORDS}
    Click Element     ${SELECT VEHICLE}
    Wait Until Element Is Visible    ${SELECT TEXT}    15
+
+User set road section
+   Input Text   ${COORD ROAD S X}   216
+   Input Text   ${COORD ROAD S Y}   130
+   Input Text   ${COORD ROAD F X}   542
+   Input Text   ${COORD ROAD F Y}   320
+   Click Element     ${SELECT ROAD}
+
+User fill for green message
+   Input Text    ${DATA FORM DIST}    50
+   Input Text    ${DATA FORM SPEED}   100
+
+User fill for red message
+   Input Text    ${DATA FORM DIST}    50
+   Input Text    ${DATA FORM SPEED}   10
+
+User fill for yellow message
+   Input Text    ${DATA FORM DIST}    50
+   Input Text    ${DATA FORM SPEED}   70
+
 
 
    

@@ -358,6 +358,7 @@ window.onresize=function(e){ reOffset(); }
 
 var isDown=false;
 var startX,startY,mouseX,mouseY;
+$("#select_road_coords").on('click',capture);
 
 
 function start(){
@@ -384,8 +385,13 @@ function draw(){
 }
 
 function capture(){
+   startX =  $("#start_road_x").val();
+   startY =  $("#start_road_y").val();
+   mouseX =  $("#end_road_x").val();
+   mouseY =  $("#end_road_y").val();
+   draw();
    //console.log('startX = ' + startX + ' startY = ' + startY)
-  // console.log('mouseX = ' + mouseX + ' mouseY = ' + mouseY)
+   //console.log('mouseX = ' + mouseX + ' mouseY = ' + mouseY)
 }
 
 function handleMouseDown(e){
@@ -415,8 +421,7 @@ function handleMouseUp(e){
   // Put your mouseup stuff here
   isDown=false;        
 
-  // create a cropped image
-  capture();
+  //capture();
 }
 
 

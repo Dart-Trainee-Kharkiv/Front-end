@@ -21,7 +21,15 @@ Cars speed visualization
     When send button appeared
     When user choose vehicle
     When user go to calculation form
+    When user set road section
+    When user fill for green message
     When user click submit button
     Then green message appeared
+    When user fill for red message
+    When user click submit button
+    Then red message appeared
+    When user fill for yellow message
+    When user click submit button
+    Then yellow message appeared
    
 
