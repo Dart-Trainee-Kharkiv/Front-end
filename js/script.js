@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", ready);
   function ready() {
      
   var arraybase = [];
+  let firstframe;
   let finishBoxes = [];
   let startBoxes = [];
   let coords = [];
@@ -11,6 +12,7 @@ document.addEventListener("DOMContentLoaded", ready);
   let imgHeight = 0;
   let pointX;
   let pointY;
+  let vrHash;
 
      document.getElementById('inputvideo').addEventListener('change', extractFrames, false);
      document.getElementById('button-add-video').addEventListener('click', loadVideo);
@@ -98,7 +100,8 @@ function extractFrames() {
     $('#inputvideo')[0].value = "";
     start()
   }
-
+  
+  firstsend = false
   function drawFrame(e) {
     ctx.drawImage(video, 0, 0);
     /* 
@@ -108,9 +111,16 @@ function extractFrames() {
     */
     canvas.toBlob(saveFrame, 'image/jpeg');
     var dataURL = canvas.toDataURL("image/jpeg");
+    dataBase = dataURL.replace(/^data:image\/(png|jpeg);base64,/, "");
     arraybase.push(dataURL.replace(/^data:image\/(png|jpeg);base64,/, ""));
-    if(arraybase.length == 1) {
-      httpPostImg(arraybase[0]);  
+    
+    if(firstsend == false) {
+      firstframe = arraybase[0];
+      httpPostImg(arraybase.pop());
+      firstsend = true;      
+    } else if (typeof vrHash !== 'undefined'){
+      while(arraybase.length > 0)
+          httpAddFrame(arraybase.pop());
     }
     arraytiming.push(video.currentTime);
     pro.innerHTML = ((video.currentTime / video.duration) * 100).toFixed(2) + ' %';  
@@ -127,13 +137,13 @@ function extractFrames() {
   }
   
   
-  function httpPostTracking(data, pointX, pointY, theUrl='http://127.0.0.1:5000/')
+  function httpPostTracking(pointX, pointY, theUrl='http://127.0.0.1:5000/')
 {
    let widthCoeff = 426/imgWidth;
    let heightCoeff = 230/imgHeight;
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( 'POST', theUrl + '/tracking', true ); // true for asynchronous request
-    xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+   var xmlHttp = new XMLHttpRequest();
+   xmlHttp.open( 'POST', theUrl + '/result', true ); // true for asynchronous request
+   xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     
     //function that will be triggered once the request will be filled
     xmlHttp.onreadystatechange = function () {
@@ -170,11 +180,11 @@ function extractFrames() {
             ctxUpload.stroke();
           }
         };
-        image.src = "data:image/jpeg;base64,"+data[0];
+        image.src = "data:image/jpeg;base64,"+firstframe;
       }
   };
     //jsonify  
-    jsonToSend = JSON.stringify({ 'frames': data, 'point': [pointX/widthCoeff,pointY/heightCoeff]})
+    jsonToSend = JSON.stringify({ 'point': [pointX/widthCoeff,pointY/heightCoeff], 'hash': vrHash})
     xmlHttp.send(jsonToSend);
 }
 
@@ -183,7 +193,7 @@ function extractFrames() {
   function httpPostImg(data, theUrl='http://127.0.0.1:5000/')
 {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( 'POST', theUrl + '/img', true ); // true for asynchronous request
+    xmlHttp.open( 'POST', theUrl + '/img', true ); // true for synchronous request
     xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     
     //function that will be triggered once the request will be filled
@@ -194,6 +204,9 @@ function extractFrames() {
          
         //get bounding boxes from first frame
         boxes = JSON.parse(xmlHttp.responseText).vehicles;
+        
+        //get object hash
+        vrHash = JSON.parse(xmlHttp.responseText).hash;
         
         //displaying rectangles on first frame
         var image = new Image();
@@ -217,10 +230,22 @@ function extractFrames() {
           }
         };
         image.src = "data:image/jpeg;base64,"+data;
+        
       }
   };
     //jsonify     
     jsonToSend = JSON.stringify({ 'frame': data,});
+    xmlHttp.send( jsonToSend );
+}
+
+  function httpAddFrame(data, theUrl='http://127.0.0.1:5000/')
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( 'POST', theUrl + '/tracking', true ); // true for asynchronous request
+    xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+    
+    //jsonify 
+    jsonToSend = JSON.stringify({ 'frame': data, 'hash': vrHash});
     xmlHttp.send( jsonToSend );
 }
 
@@ -243,8 +268,8 @@ function extractFrames() {
     $("#select-vehicle").on('click', sendVideo);
 
     function sendVideo() {
-       console.log("click");
-      httpPostTracking(arraybase,pointX,pointY);
+      //console.log("click");
+      httpPostTracking(pointX,pointY);
     }
        
     
@@ -267,6 +292,7 @@ function extractFrames() {
    function checkTime() {
       if(video.currentTime > 0 && array.length <= Math.floor(video.currentTime/framerate)) {
       video.pause();
+      
       drawFrame();
       if (video.currentTime < video.duration) video.play();
       }
@@ -330,7 +356,7 @@ function videoCalculationClick() {
 
   selectAreaImage.crossOrigin='anonymous';
   selectAreaImage.onload=start;
-  selectAreaImage.src = "data:image/jpeg;base64,"+arraybase[0];
+  selectAreaImage.src =  "data:image/jpeg;base64,"+firstframe;
 }
 
 
