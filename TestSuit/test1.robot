@@ -8,13 +8,13 @@ Resource          resource.robot
 
 
 
-Additional data to upload with video
-   When user go to calculation form
-   Then data form appear
+ Additional data to upload with video
+    When user go to calculation form
+    Then data form appear
    
-Ability to upload video
-   When user upload video
-   Then send button appeared
+ Ability to upload video
+    When user upload video
+    Then send button appeared
    
 Cars speed visualization
     When user upload video

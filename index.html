@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app>
+<html ng-app lang="en">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -66,12 +66,12 @@
      	  	<div class="container-video-calculation" id="container-video-calculation" >Calculation</div>
        </div>
        <div class="select" hidden>
-        <img src="img/btn-select.svg" class="btn-select calculation-element" id = "btn-select-id">
+        <img src="img/btn-select.svg" alt="img" class="btn-select calculation-element" id = "btn-select-id">
        </div>
 
       <div class="video-translation windows upload-element" >
 
-        <video width="100%" height="100%" id="loaded-video">
+        <video id="loaded-video" width="100%" height="100%">
              <!--<source src="URL">-->
         </video>
       </div>
@@ -86,17 +86,17 @@
 
       <div class="warning_message calculation-element">
         <div class="warning-red">
-           <img src="img/warning_sign.svg">
+           <img src="img/warning_sign.svg" alt="img">
             <div class="warning_mess calculation-element" >On this segment of the road, the car exceeded speed
             </div>
         </div>
         <div class="warning-yellow">
-           <img src="img/warning_sign_yellow.svg" class="calculation-element">
+           <img src="img/warning_sign_yellow.svg" class="calculation-element" alt="img">
             <div class="warning_mess calculation-element">Сar’s speed is equal to the limit
             </div>
         </div>
         <div class="warning-green">
-           <img src="img/warning_sign_green.svg" class="calculation-element">
+           <img src="img/warning_sign_green.svg" class="calculation-element" alt="img">
             <div class="warning_mess calculation-element">Сar’s speed does not exceed the limit
             </div>
         </div> 
@@ -113,7 +113,7 @@
         </canvas>        
         
         <form class="upload-element">
-        <input class="test_element" type="number" id="select_car_x" width="1px" height="1px">
+        <input class="test_element" type="number" id="select_car_x">
         <input class="test_element" type="number" id="select_car_y">
         <button class="test_element" id="select_car_coords"></button>
         </form>

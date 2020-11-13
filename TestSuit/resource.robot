@@ -81,6 +81,7 @@ User choose vehicle
    Input Text   ${COORD CAR X}   182
    Input Text   ${COORD CAR Y}   89
    Click Element     ${SELECT COORDS}
+   Wait Until Element Is Enabled     ${SELECT VEHICLE}
    Click Element     ${SELECT VEHICLE}
    Wait Until Element Is Visible    ${SELECT TEXT}    15
 

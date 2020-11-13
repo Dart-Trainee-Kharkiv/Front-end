@@ -414,6 +414,10 @@ area {
    display:none;
 }
 
+.loaded-video{
+   width:100%;
+}
+
 .test_element  {
    width: 1px !important;
    height: 1px !important;
